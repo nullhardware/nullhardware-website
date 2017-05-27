@@ -17,7 +17,7 @@ mailchimp:
 logo:
   svg: /img/logo.svg
   png: /favicons/android-chrome-192x192.png #192px x 192px
-default-thumb: https://placeholdit.imgix.net/~text?txtsize=38&txt=<img>&w=400&h=300
+default-thumb: /img/generic/messy-desk-000000.thumb.jpg
 excerpt_separator: "#"
 
 # Social networks usernames
