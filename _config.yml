@@ -8,7 +8,7 @@ email: "admin@nullhardware.com"
 description: "We're the Approachable Open-Source Hackers. HW + Embedded Dev + Magic Smoke."
 
 #services
-google-analytics: 
+google-analytics: UA-99973850-1
 mailchimp:
   url: https://nullhardware.us16.list-manage.com/subscribe/post?u=7537145f65c450a5d5ca4e0a8&amp;id=7049636491
   key: b_7537145f65c450a5d5ca4e0a8_7049636491
