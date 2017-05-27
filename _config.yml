@@ -5,13 +5,13 @@ baseurl:
 name: Null Hardware
 title: Hardware, Circuits, and Open Source
 email: "admin@nullhardware.com"
-description: "This is my kickass site description."
+description: "We're the Approachable Open-Source Hackers. HW + Embedded Dev + Magic Smoke."
 
 #services
 google-analytics: 
 mailchimp:
-  url:
-  key:
+  url: https://nullhardware.us16.list-manage.com/subscribe/post?u=7537145f65c450a5d5ca4e0a8&amp;id=7049636491
+  key: b_7537145f65c450a5d5ca4e0a8_7049636491
 
 #images
 logo:
