@@ -10,6 +10,15 @@ css:
       line-height: 1.3333333;
       border-radius: 8px;
     }
+    @media (max-width: 768px )
+    {
+      .btn.btn-xl {
+        padding: 5px 10px;
+        font-size: 16px;
+        line-height: 1.3333333;
+        border-radius: 8px;
+      }
+    }
 ---
 <header>
   <div class="jumbotron" style="">
@@ -88,7 +97,7 @@ css:
       </div>
     </div>
     <br>
-    <p class="text-center"><a href="{{ '/help/purchase/' | relative_url }}" class="btn btn-danger btn-xl" role="button">Help me get back to creating awesome | $25 &raquo;</a></p>
+    <p class="text-center"><a href="{{ '/help/purchase/' | relative_url }}" class="btn btn-danger btn-xl" role="button">Get back to creating awesome | $25 &raquo;</a></p>
     <br><br><br><br>
   </section>
 </div>
