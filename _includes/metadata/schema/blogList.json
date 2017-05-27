@@ -1,0 +1,49 @@
+{
+  "@context": "http://schema.org/",
+  "@type": "CollectionPage",
+  "headline": "List of {{site.name}} Blog Articles",
+  "publisher":{% include metadata/schema/snips/organization.json %},
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": [
+    {% capture pagedata %}{% include paginate/calc %}{% endcapture %}
+    {% assign pagedata = pagedata | split: "|" %}
+    {% assign cur_page = pagedata[0] | plus: 0 %}
+    {% assign last_page = pagedata[1] | plus: 0 %}
+    {% assign start = pagedata[2] | plus: 0 %}
+    {% assign total = pagedata[3] | plus: 0 %}
+    {% for post in site.posts offset: start limit: total %}
+      {
+        "@type": "BlogPosting",
+        "position": {{ site.posts | size | plus: 1 | minus: start | minus: forloop.index }},
+        "headline": "{{post.title}}",
+        "description": "{{post.description}}",
+        "url": "{{post.url | prepend: site.baseurl | prepend: site.url}}",
+        "mainEntityOfPage": "{{post.url | prepend: site.baseurl | prepend: site.url}}",
+        "datePublished": "{{ post.date | date: '%Y-%m-%d' }}",
+        {% if post.author and site.data.authors[post.author] %}
+        "author": {"@id": "{{site.data.authors[post.author].home}}", "@type": "Person", "name": "{{site.data.authors[post.author].name}}"},
+        {% endif %}
+        "publisher": {"@id": "{{site.url}}", "@type": "Organization", "name": "{{site.name}}"},
+        "image":{
+           "@type":"ImageObject",
+           {% assign thumb = page.image.path | default: site.default-thumb %}
+           {% assign thumb_proto = thumb | slice: 0,4 %}
+           {% if thumb_proto != "http" %}
+             {% assign thumb_proto = thumb_proto | slice: 0 %}
+             {% if thumb_proto != "/" %}
+               {% assign thumb = page.url | replace:'index.html','' | append: thumb  %}
+             {% endif %}
+             {% assign thumb = thumb |  prepend: site.baseurl | prepend: site.url %}
+           {% endif %}
+           "url":"{{ thumb }}",
+           "height": {{post.image.height | default: 600}},
+           "width": {{post.image.width | default: 800}}
+        }
+      }
+      {% unless forloop.last %},{% endunless %}
+    {% endfor %}
+    ]
+  }
+
+}

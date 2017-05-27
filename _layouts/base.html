@@ -1,0 +1,22 @@
+---
+layout: compress
+templates:
+  metadata:
+    opengraph: opengraph.html
+    twitter: card.html
+---
+<!DOCTYPE html>
+<html>
+  {% include base/head.html %}
+  <body id="page-top">
+ 		<header role="banner">
+  	{% include base/nav.html %}
+  	</header>
+    <div data-spy="affix" data-offset-top="200" class="affix-hide"><a href="#" title="Go To Top">&nbsp;^&nbsp;</a></div>
+    {{ content }}
+    <footer role="contentinfo">
+    {% include base/footer.html %}
+    </footer>
+    {% include base/js.html %}
+  </body>
+</html>

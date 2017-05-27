@@ -1,0 +1,16 @@
+<ul class="list-unstyled list-social {{include.class}}">
+  <li>
+    <a href="https://www.facebook.com/sharer/sharer.php?u={{include.url | default: page.url|prepend: site.baseurl|prepend: site.url|cgi_escape}}&t={{page.title|uri_escape}}" target="_blank" title="Share on Facebook">
+		<svg class="social-icon">
+  			<use xlink:href="{{ '/img/icons.svg#icon-facebook' | prepend: site.baseurl }}"></use>
+		</svg>	
+    </a>
+  </li>
+  <li>
+    <a href="https://twitter.com/intent/tweet?url={{include.url | default: page.url | prepend: site.baseurl | prepend: site.url| cgi_escape}}&text={{include.title | default: page.title|uri_escape}}" target="_blank" title="Tweet">
+		<svg class="social-icon">
+  			<use xlink:href="{{ '/img/icons.svg#icon-twitter' | prepend: site.baseurl }}"></use>
+		</svg>	
+    </a>
+  </li>
+</ul>

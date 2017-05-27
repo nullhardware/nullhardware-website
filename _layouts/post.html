@@ -1,0 +1,56 @@
+---
+layout: base
+templates:
+  metadata:
+    schema: ["post.json"]
+---
+<div class="container">
+  <div class="row">
+    <main role="main" class="col-md-9">
+      <article id="content">
+      	{%if page.image %}
+      	<div class="block-2x1 content-img"></div>
+      	{% endif %}
+        <h1 class="{% if page.isdraft %}text-danger{% endif %}">{{page.headline | default: page.title}}{% if page.isdraft %} (DRAFT){% endif %} <small>{% for tag in page.tags %}<a href="{{ '/blog/tags/' | pepend: site.baseurl}}#{{ tag | slugify }}" class="label label-info">#{{ tag }}</a> {% endfor %}</small></h1>
+        <span class="pull-right">{% if page.author and site.data.authors[page.author] %}By: <a href="#author">{{ site.data.authors[page.author].name }}</a> | {% endif %}<time datetime="{{ page.date | date: "%Y-%m-%d" }}" >{{ page.date | date: "%b %-d, %Y" }}</time></span>
+      	<hr>
+      	{{ content }}
+      	{% if page.author and site.data.authors[page.author] %}
+        <div id="author">
+          {% include snips/author.html author=page.author %}
+        </div>
+      	{% endif %}
+    	</article>
+    <aside>
+    <!-- Remarkbox - readers want to communicate with you -->
+      <!-- <script type="text/javascript" src="https://demo.remarkbox.com/static/js/iframe-resizer/iframeResizer.min.js"></script><script type="text/javascript">thread_fragment=window.location.hash; thread_uri=window.location.href; document.write('<iframe id="remarkbox" src="https://demo.remarkbox.com/embed?thread_uri=' + thread_uri + '" title="remarkbox" width="100%" style="width: 100% !important; border: none !important; overflow: hidden !important;" allowtransparency="true" scrolling="no" horizontalscrolling="no" verticalscrolling="no" tabindex="0" seamless></iframe>'); iFrameResize({inPageLinks: true, initCallback: function(iframe){iframe.iFrameResizer.moveToAnchor(thread_fragment);}}, document.getElementById("remarkbox") );</script><noscript><iframe id="remarkbox" src="https://demo.remarkbox.com/embed?nojs=true" frameborder="0" style="height: 600px; width: 100%; border: none !important;" allowtransparency="true" height="600px" width="100%"></iframe></noscript> -->
+    </aside>
+    </main>
+    <aside role="complementary" class="col-md-3">
+      <hr class="hidden-md hidden-lg">
+
+      <div class="hidden-sm hidden-xs">
+        <h4 class="">Share this article</h4>
+        {% include snips/share.html class="h1 text-center"%}
+        <hr>
+      </div>
+      
+      <div>
+        <h4>Get Weekly Updates</h4>
+        <div class="visible-lg-block visible-sm-block visible-xs-block">
+          {% include snips/mailchimp.html inline=true label="I'm in!" %}
+        </div>
+        <div class="visible-md-block">
+          {% include snips/mailchimp.html label="I'm in!" %}
+        </div>
+      </div>
+
+      <hr>
+      <div class="hidden-sm hidden-xs">
+        <h4 class="">Follow Us</h4>
+        {% include snips/social.html social=site.social class="text-center" %}
+        <hr>
+      </div>
+    </aside>
+  </div>
+</div>

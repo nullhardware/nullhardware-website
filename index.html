@@ -1,0 +1,35 @@
+---
+templates:
+  metadata:
+    schema: ["main.json"]
+title: Approachable Open-Source Hackers - HW + Embedded Dev + Magic Smoke.
+num_blog_posts: 3 #must be less that site.paginate
+cta:
+  body: |
+    # We're approachable Open-Source Hackers, 
+    <h2 class="text-right" style="color: #ddd">and we want to help.</h2>
+
+    **Subscribe** to learn about: *Arduinos, RPis, bare metal &micro;Cs, circuit design, communication systems, and **more***.
+
+  label: "Start Learning"
+  image:
+    path: /img/generic/messy-desk-000000.jpg
+    center: '85% 75%'
+    opacity: 0.45
+---
+{% include cta/mailchimp.html cta=page.cta %}
+
+<h2>{{site.name}}'s Latest Blog Posts</h2>
+<hr>
+{% for cpost in site.posts limit:page.num_blog_posts %}
+  {% include base/postitem.html post=cpost %}
+{% endfor %}
+
+<div class="text-center">
+  {% assign cpostid = page.num_blog_posts | minus: 1 %}
+  <a href="{{ '/blog/' | prepend: site.baseurl }}#{{site.posts[cpostid].title | slugify}}" class="btn btn-danger btn-lg">See More Posts &raquo;</a>
+</div>
+
+
+
+

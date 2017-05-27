@@ -1,0 +1,29 @@
+---
+layout: landing
+title: You are now subscribed.
+css:
+  inline: |
+    .link-back {
+      color: #ddd;
+      opacity: 0.8;
+    }
+    .link-back:hover {
+      color: #fff;
+      opacity: 1;
+    }
+---
+<header>
+  <div class="jumbotron" style="">
+    <div class="jumbotron-background" style="background-image: url('https://unsplash.it/1200/800?image=22');background-position: 35% 25%;">&nbsp;</div>
+    <div class="container" style="">
+      <div style="position: absolute; top: 50%; left: 15px; right: 15px;-webkit-transform: translate(0,-50%);transform: translate(0,-50%);">
+        <h1>You are now subscribed.</h1>
+        <h2>Thanks for confirming your email.</h2>
+        <p>If you want even <strong>more</strong> awesomeness, follow us on social media:</p>
+        {% include snips/social.html social=site.social class="h2" %}
+        <p class="text-center"><a class="link-back" href=" {{'/' | relative_url }}">&laquo; Return to {{site.name}}</a></p>
+      </div>
+    </div>
+    <a class="jumbotron-brand h5" href=" {{'/' | relative_url }}">&laquo; {{site.name}}</a>
+  </div>
+</header>

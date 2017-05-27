@@ -1,0 +1,41 @@
+---
+permalink: /projects/index.html
+---
+
+<h1>Projects</h1>
+
+<p>Lorem ipsum dolor sit amet, paulo iudico laboramus vel ne, ea sed feugiat apeirian. Sit omnes tibique ut, mei sensibus torquatos rationibus cu. Quo habeo commodo eu, pri animal labores te. Eos no tale noster.</p>
+
+<p><strong>Here is what we are currently working on:</strong></p>
+
+{% assign numprojects = site.projects | size %}
+{% if numprojects  == 0 %}
+  <p><em>oops... Nothing Yet.</em></p>
+{% endif %}
+{% for project in site.projects %}
+  {% assign leftright = forloop.index | modulo: 2 %}
+  {% if leftright == 1 %}
+  <div class="row">
+  {% endif %}
+    <div class="col col-sm-6">
+      <div class="thumbnail">
+        {% assign cimg = project.image.thumb.path | default: project.image.thumb | default: project.image.path | default: project.image | default: site.default-thumb %}
+        {% assign cimg_proto = cimg | slice: 0,4 %}
+        {% if cimg_proto != "http" %}
+          {% assign cimg = cimg | relative_url %}
+        {% endif %}
+        <div class="block-4x3">
+          <a class="post-link" href="{{ project.url | relative_url }}" title="{{project.title}}"><img class="block-fill" src="{{cimg}}" alt="{{project.title}}"></a>
+        </div>
+        <div class="caption">
+          <h3>{{project.title}}</h3>
+          {% assign excerpt = project.content | split: "</h1>" %}
+          <p>{{ excerpt[1] | strip_html | truncatewords: 100 }}</p>
+          <p><a href="{{project.url | prepend: site.baseurl}}" class="btn btn-primary btn-large" role="button" title="Our {{project.title}} Project">More...</a></p>
+        </div>
+      </div>
+    </div>
+  {% if leftright == 0 or leftright == 1 and forloop.last %}
+  </div> {% comment %} end the row {% endcomment %}
+  {% endif %}
+{% endfor %}

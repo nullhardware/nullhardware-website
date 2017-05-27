@@ -1,0 +1,95 @@
+---
+layout: landing
+title: Page Specific Title
+css:
+  inline: |
+    .h3-icon {height: 16px; width: 16px;}
+    .btn.btn-xl {
+      padding: 15px 24px;
+      font-size: 28px;
+      line-height: 1.3333333;
+      border-radius: 8px;
+    }
+---
+<header>
+  <div class="jumbotron" style="">
+    <div class="jumbotron-background" style="background-image: url('{{"/img/help/hero.jpg" | relative_url}}');background-position: 0% 65%;">&nbsp;</div>
+    <div class="container" style="">
+      <div class="text-right" style="position: absolute; top: 50%; left: 15px; right: 15px;-webkit-transform: translate(0,-50%);transform: translate(0,-50%);">
+        <h1><strong>*&amp;#%@^*</strong> Arduino?</h1>
+        <h2>Quit swearing, and get back to making.</h2>
+        <p><small><em><a href="#more" style="color: #fff;">Learn More &#9662;</a></em></small></p>
+        <h2><a href="{{ '/help/purchase/' | relative_url }}" class="btn btn-danger btn-lg" role="button">Get Professional Help | $25 &raquo;</a></h2>
+      </div>
+    </div>
+    <a class="jumbotron-brand h5" href=" {{'/' | relative_url }}">&laquo; {{site.name}}</a>
+  </div>
+</header>
+
+<div class="container">
+  <section>
+    <h1 id="more">We've <strong>all</strong> been there.</h1>
+    <div class="row">
+      <div class="col col-md-6">
+        <p>Struggling all night to get your embedded project to work.</p>
+        <p>Sometimes it's your code, other times it's the hardware, or communication glitches that require expensive equipment to even detect, or that one-in-a-million timing bug that crops up and breaks everything.</p>
+        <p>You <em>could</em> post your problem to some random forum, but getting experienced help from somebody who takes the time to understand your problem and give you meaningful advice requires knowing exactly the right place to go and getting lucky on the timing.</p>
+      </div>
+      <div class="col col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-5 col-md-offset-1">
+        <div class="alert alert-success clearfix">
+          <img src="https://unsplash.it/400/400?image=1027" class="img-circle pull-left img-chathead">
+          <div>
+            <p>"Null Hardware took one look at my github repo and helped me get my TFT display working in no time."</p>
+            <p class="text-right">-Imaginary Person</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h1 class="text-center">What You Get with Null Hardware</h1>
+    <br>
+    <div class="row">
+      <div class="col col-sm-6">
+        <h3><svg class="h3-icon"><use xlink:href="{{ '/img/icons.svg#icon-rss' | prepend: site.baseurl }}"></use></svg>&nbsp;One-on-One Contact</h3>
+        <p>We call you and talk to you about your problem, getting a firm grasp on what you have and haven't tried, without you having to write a single step down.</p>
+      </div>
+      <div class="col col-sm-6">
+        <h3><svg class="h3-icon"><use xlink:href="{{ '/img/icons.svg#icon-email' | prepend: site.baseurl }}"></use></svg>&nbsp;A Solid Theoretical Foundation</h3>
+        <p>We've all taken university level courses on circuit design, programming, and digital communications. We won't just try things, we'll tell you why they don't work.</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col col-sm-6">
+        <h3><svg class="h3-icon"><use xlink:href="{{ '/img/icons.svg#icon-github' | prepend: site.baseurl }}"></use></svg>&nbsp;Industry Experience</h3>
+        <p>We've taken the theory and put it into practice. We've seen what goes wrong in real circuits, and we've rebuilt them to address real-world issues.</p>
+      </div>
+      <div class="col col-sm-6">
+        <h3><svg class="h3-icon"><use xlink:href="{{ '/img/icons.svg#icon-reddit' | prepend: site.baseurl }}"></use></svg>&nbsp;A Skillful Team</h3>
+        <p>When it comes to problem solving, sometimes two (or more) heads are better than one. At Null Hardware, you'll always have access to our full team of experts.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h1 class="text-center">Getting Started</h1>
+    <br>
+    <div class="row">
+      <div class="col col-sm-4 col-md-2">
+        <blockquote>
+          <p>Do or Do Not, There is no try.</p>
+        </blockquote>
+        <p class="text-right">-Yoda</p>
+      </div>
+      <div class="col col-sm-8 col-md-8 col-md-offset-1">
+        <p>Because we're makers too, we thrive on the experience of working through a problem and finally getting it to work.</p>
+        <p>We're a team with a combined 30+ years experience doing embedded development professionally. Whether you're having problems with Arduino's, RPi's, C programming, Circuit design, or Serial communication, there's someone on our team with the experience and expertise to help you get past your current roadblock and back to creating awesome.</p>
+      </div>
+    </div>
+    <br>
+    <p class="text-center"><a href="{{ '/help/purchase/' | relative_url }}" class="btn btn-danger btn-xl" role="button">Help me get back to creating awesome | $25 &raquo;</a></p>
+    <br><br><br><br>
+  </section>
+</div>
+<br>

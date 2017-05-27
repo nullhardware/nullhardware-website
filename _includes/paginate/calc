@@ -1,0 +1,28 @@
+{% capture pagedata %}
+  {% comment %}
+  ======================================================================================
+  output format is one line as follows:
+    current_page | last_page | first_post_of_page | posts_on_page
+
+  NOTE: cur_page can be > last_page. This indicates a summary page the holds the newest
+  posts before they get "paginated".
+  ======================================================================================
+  {% endcomment %}
+	{% assign cur_page = paginator.page | default: page.page %}
+	{% assign total_posts = site.posts | size  %}
+	{% assign last_page = total_posts | minus: 1 | divided_by: site.paginate %}
+	{% unless cur_page %}
+		{% assign cur_page = last_page | plus: 1 %}
+	{% endunless %}
+
+	{% if cur_page <= last_page %}
+		{% assign offset = site.paginate | times: cur_page %}
+		{% assign start = total_posts | minus: offset %}
+		{% assign total = site.paginate %}
+	{% else %}
+		{% assign start = 0 %}
+		{% assign total = total_posts | modulo: site.paginate | plus: site.paginate %}
+	{% endif %}
+
+{{cur_page}}|{{last_page}}|{{start}}|{{total}}
+{% endcapture %}{% assign pagedata = pagedata | replace: " ","" | strip_newlines %}{{pagedata}}

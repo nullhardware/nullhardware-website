@@ -1,0 +1,34 @@
+ <!-- jQuery Version 3.2.1 -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<!-- Font-Face-Observer -->
+<script src="{{ '/js/fontfaceobserver-2.0.9.js' | prepend: site.baseurl }}" ></script>
+
+<!-- svgxuse Polyfill -->
+<script src="{{ '/js/svgxuse-1.2.4.min.js' | prepend: site.baseurl }}" ></script>
+
+<script>
+(function() {
+	function updateFontTime(){
+			var now = new Date();
+			var time = now.getTime() + 60*5*1000;
+			now.setTime(time);
+			document.cookie = "_fl=1; expires=" + now.toUTCString() +"; path=/";
+	}
+	if(!document.documentElement.className.match(/ fonts-loaded/))
+	{
+		var fontA = new FontFaceObserver('Bitter');
+		var fontB = new FontFaceObserver('Cabin');
+
+		Promise.all([fontA.load(), fontB.load()]).then(function () {
+		  document.documentElement.className += " fonts-loaded";
+		  updateFontTime();
+		});
+	}
+	else
+		updateFontTime();
+})();
+</script>

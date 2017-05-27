@@ -1,0 +1,21 @@
+<form action="{{include.url | default: site.mailchimp.url }}" method="post" name="mc-embedded-subscribe-form" style="max-width: 300px;" class="center-block" target="_blank">
+  <div class="form-group">
+    <label>Enter your email:</label>
+    {% if include.inline %}
+    <div class="input-group">
+    {% endif %}
+        <input type="email" value="" placeholder="Email Address" aria-label="Enter Your Email Address" name="EMAIL" class="form-control" >
+        {% if include.inline %}
+        <span class="input-group-btn">
+        {% else %}
+  </div>
+        {% endif %}
+          <input type="submit" value="{{include.label | default: 'Submit'}}" name="subscribe" class="btn btn-danger">
+        {% if include.inline %}
+        </span>
+    </div>
+  </div>
+    {% endif %}
+    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+    <div style="position: absolute; left: -5000px;"><input type="text" name="{{include.key | default: site.mailchimp.key}}" value=""></div>
+</form>

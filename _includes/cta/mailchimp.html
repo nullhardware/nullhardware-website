@@ -1,0 +1,8 @@
+<div class="jumbotron content-img" style="{% if include.cta.image %}color: #fff;background: #000;{% endif %}">
+  {% if include.cta.image %}
+  <div class="jumbotron-background" style="background-image: url('{{include.cta.image.path | default: include.cta.image}}');{% if include.cta.image.center %}background-position: {{include.cta.image.center}};{% endif %}{% if include.cta.image.opacity %}opacity:{{include.cta.image.opacity}}{% endif %}">&nbsp;</div>
+  {% endif %}
+  {% if include.cta.title %}<span class="h1">{{ include.cta.title }}</span>{% endif %}
+  {{ include.cta.body | markdownify }}
+  {% include snips/mailchimp.html url=include.cta.mailchimp.url key=include.cta.mailchimp.key label=include.cta.label inline=true %}
+</div>

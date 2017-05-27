@@ -1,0 +1,39 @@
+{  
+  "@context":"http://schema.org",
+  "@type":"BlogPosting",
+  "headline":"{{ page.title }}",
+  "description": "{{ page.description }}",
+  "url":"{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}",
+  "datePublished":"{{ page.date | date: '%Y-%m-%d' }}",
+  {% if post.author and site.data.authors[post.author] %}
+  "author":{  
+    "@type": "Person",
+    "@id": "{{site.data.authors[post.author].home | default: post.author}}",
+    "name": "{{site.data.authors[post.author].name}}",
+    "sameAs": [
+      {% assign author_social=site.data.authors[page.author].social %}
+      {% for network in author_social %}
+        {% assign name = network[0] %}
+          "{{ site.data['social-links'][name] | append: network[1] }}"{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    ]
+  },
+  {% endif %}
+  "publisher":{% include metadata/schema/snips/organization.json %},
+  "image":{  
+    "@type":"ImageObject",
+    {% assign thumb = page.image.path | default: site.default-thumb %}
+    {% assign thumb_proto = thumb | slice: 0,4 %}
+    {% if thumb_proto != "http" %}
+      {% assign thumb_proto = thumb_proto | slice: 0 %}
+      {% if thumb_proto != "/" %}
+        {% assign thumb = page.url | replace:'index.html','' | append: thumb  %}
+      {% endif %}
+      {% assign thumb = thumb |  prepend: site.baseurl | prepend: site.url %}
+    {% endif %}
+    "url":"{{ thumb }}",
+    "height": {{post.image.height | default: 600}},
+    "width": {{post.image.width | default: 800}}
+  },
+  "mainEntityOfPage": "{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}"
+}

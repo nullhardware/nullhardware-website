@@ -1,0 +1,27 @@
+{% comment %}
+=========================
+Twitter username is require for Twitter:site.
+=========================
+{% endcomment %}
+{% if site.social.twitter %}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@{{site.social.twitter}}">
+{% if page.author and site.data.authors[page.author].social.twitter %}
+  <meta name="twitter:creator" content="@{{site.data.authors[page.author].social.twitter}}">
+{% endif %}
+<meta name="twitter:title" content="{{ page.title | default: site.title}}">
+<meta name="twitter:url" content="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
+<meta name="twitter:description" content="{{ page.description | default: site.description}}">
+
+{% assign thumb = page.image.thumb.path | default: page.image.thumb | default: page.image.path | default: site.default-thumb %}
+{% assign thumb_proto = thumb | slice: 0,4 %}
+{% if thumb_proto != "http" %}
+  {% assign thumb_proto = thumb_proto | slice: 0 %}
+  {% if thumb_proto != "/" %}
+    {% assign thumb = page.url | replace:'index.html','' | append: thumb  %}
+  {% endif %}
+  {% assign thumb = thumb |  prepend: site.baseurl | prepend: site.url %}
+{% endif %}
+
+  <meta name="twitter:image:src" content="{{ thumb }}">
+{% endif %}

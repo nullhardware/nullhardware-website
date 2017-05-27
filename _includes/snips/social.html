@@ -1,0 +1,12 @@
+<ul class="list-inline list-social {{include.class}}">
+	{% for network in include.social %}
+		{% assign name = network[0] %}
+		<li>
+			<a href="{{ site.data['social-links'][name] | append: network[1] }}" title="{{ network[1] }}" target="_blank">
+				<svg class="social-icon">
+  				<use xlink:href="{{ '/img/icons.svg#icon-' | append: name | prepend: site.baseurl }}"></use>
+				</svg>	
+			</a>
+		</li>
+	{% endfor %}
+</ul>

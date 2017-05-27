@@ -1,0 +1,11 @@
+<div class="panel panel-default">
+	<div class="panel-body">
+		<article>
+			<img src="{{site.data.authors[include.author].image}}" alt="{{site.data.authors[include.author].name}}" class="img-circle pull-left img-chathead">
+			<h1 class="block-inline" id="{{include.author}}">{%if page.date %}<small>By</small> {% endif %}{{site.data.authors[include.author].name}}</h1>
+			{% assign author_social=site.data.authors[include.author].social %}
+			{% include snips/social.html social=author_social class="block-inline" %}
+			<p>{{site.data.authors[include.author].description | markdownify }}</p>
+		</article>
+	</div>
+</div>

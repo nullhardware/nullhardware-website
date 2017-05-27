@@ -1,0 +1,49 @@
+<!-- Navigation -->
+<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+    <div class="container">
+      <!-- logo -->
+      <div class="navbar-left navbar-logo logo">
+        <a href="{{ '/' | prepend: site.baseurl }}" title="Home">
+        {% assign logo = site.logo.svg | default: site.logo.png | default: site.logo %}
+        <img src="{{ logo | prepend: site.baseurl }}" >
+        </a>
+      </div>
+
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header page-scroll">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">{{site.name}}</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <form action="{{ "/help/" | prepend: site.baseurl }}" class="navbar-form navbar-right">
+            <button class="btn btn-primary"><strong>*&amp;#%</strong> Arduino?</button>
+          </form>
+          <ul class="nav navbar-nav navbar-right">
+              <li class="hidden">
+                  <a href="#page-top"></a>
+              </li>
+              <li>
+                  <a href="{{ "/about/" | prepend: site.baseurl }}">About</a>
+              </li>
+              <li>
+                  <a href="{{ "/blog/" | prepend: site.baseurl }}">Blog</a>
+              </li>
+              <li>
+                  <a href="{{ "/reference/" | prepend: site.baseurl }}">Reference</a>
+              </li>
+              <li>
+                  <a href="{{ "/projects/" | prepend: site.baseurl }}">Projects</a>
+              </li>
+          </ul>
+      </div>
+      <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>

@@ -1,0 +1,39 @@
+---
+layout: default
+title: List of Blog Posts
+is-blog-pagination: true
+templates:
+  metadata:
+    schema: ["blogList.json"]
+---
+
+<h1>Blog Posts</h1>
+<br>
+{% capture pagedata %}{% include paginate/calc %}{% endcapture %}
+{% assign pagedata = pagedata | split: "|" %}
+{% assign cur_page = pagedata[0] | plus: 0 %}
+{% assign last_page = pagedata[1] | plus: 0 %}
+{% assign start = pagedata[2] | plus: 0 %}
+{% assign total = pagedata[3] | plus: 0 %}
+
+{% if start >= 0 %}
+{% for post in site.posts offset: start limit: total %}
+  {% include base/postitem.html post=post %}
+{% endfor %}
+{% endif %}
+
+{% capture navdata %}{% include paginate/nav pagedata=pagedata %}{% endcapture %}
+{% assign navdata = navdata | split: "|" %}
+<div class="clearfix">
+  {% if navdata[0] and navdata[0] != "" %}
+  <div class="pull-left">
+    <a href="{{ navdata[0] | prepend: site.baseurl }}" class="btn btn-danger btn-lg">&laquo; Older</a>
+  </div>
+  {% endif %}
+  {% if navdata[1] and navdata[1] != "" %}
+  <div class="pull-right">
+    <a href="{{ navdata[1] | prepend: site.baseurl }}" class="btn btn-danger btn-lg">Newer &raquo;</a>
+  </div>
+  {% endif %}
+</div>
+

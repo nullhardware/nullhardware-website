@@ -1,0 +1,7 @@
+{
+  "@context": "http://schema.org", 
+  "@type": "WebSite",
+  "url": "{{site.url}}",
+  "name": "{{site.name}}",
+  "creator": {% include metadata/schema/snips/organization.json %}
+}

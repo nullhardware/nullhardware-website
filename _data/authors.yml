@@ -1,0 +1,14 @@
+andrew:
+  name: Andrew Steadman
+  type: editor
+  description: |
+    Hacker, Photographer, Curler, & Dad in [#YEG](https://twitter.com/search?q=%23yeg). I'm a **true** Full-Stack developer 
+    comfortable with everything from PCB design to Firmware Development, PHY design and verification, REST APIs, and HTML/JS. In my spare time I [fabricate keyfobs](https://www.fobricator.ca).
+
+    **Email**: andrew@andrewsteadman.ca **Home**: [andrewsteadman.ca](https://www.andrewsteadman.ca).
+  home: "https://www.andrewsteadman.com"
+  image: /img/authors/andrew.png
+  social:
+    twitter: "steadmanticore"
+    github: "asteadman"
+    email: "andrew@andrewsteadman.ca"

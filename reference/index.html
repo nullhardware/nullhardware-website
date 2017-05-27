@@ -1,0 +1,59 @@
+---
+---
+<h1>Reference Material</h1>
+
+<p>Lorem ipsum dolor sit amet, paulo iudico laboramus vel ne, ea sed feugiat apeirian. Sit omnes tibique ut, mei sensibus torquatos rationibus cu. Quo habeo commodo eu, pri animal labores te. Eos no tale noster.</p>
+
+<h2>What we know:</h2>
+
+{% assign numref = site.reference | size %}
+{% if numref  == 0 %}
+  <p><em>oops... Nothing Yet.</em></p>
+{% endif %}
+
+{% capture refs %}{% for ref in site.reference %}{% assign reffile = ref.path | split: "/" | last | prepend: "/" %}{{ref.path | replace_first: reffile,""}}${{forloop.index0}}{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
+{% assign refs = refs | split: "," | sort %}
+
+<ul>
+{% assign ctopic = "" %}
+{% for ref in refs %}
+  {% assign pgid = ref | split: "$" | last | plus: 0 %}
+  {% assign pg = site.reference[pgid] %}
+  {% assign pgfile = pg.path | split: "/" | last | prepend: "/" %}
+  {% assign pgtopic = pg.path | replace_first: "_reference/","" | replace_first: pgfile,"" %}
+  {% unless pgtopic == ctopic %}
+    {% assign ctopic = pgtopic %}
+    <li><a href="#{{ctopic | slugify}}" title="pg.title">{{ctopic}}</a></li>
+  {% endunless %}
+{% endfor %}
+</ul>
+
+{% assign ctopic = "" %}
+{% for ref in refs %}
+  {% assign pgid = ref | split: "$" | last | plus: 0 %}
+  {% assign pg = site.reference[pgid] %}
+  {% assign pgfile = pg.path | split: "/" | last | prepend: "/" %}
+  {% assign pgtopic = pg.path | replace_first: "_reference/","" | replace_first: pgfile,"" %}
+  {% unless pgtopic == ctopic %}
+    {% assign ctopic = pgtopic %}
+    <hr>
+    <h3 id="{{ ctopic | slugify}}">{% assign topicary = ctopic | split: "/" %}{% for topic in topicary %}{{topic | capitalize }}{% unless forloop.last %} / {% endunless %}{% endfor %}</h3>
+  {% endunless %}
+  <div class="row">
+    <div class="col col-xs-12">
+      <div class="pull-left block-4x3 block-1third">
+        <a class="post-link" href="{{pg.url | relative_url }}">
+          {% assign cimg = pg.image.thumb.path | default: pg.image.thumb | default: pg.image.path | default: pg.image | default: site.default-thumb %}
+          {% assign cimg_proto = cimg | slice: 0,4 %}
+          {% if cimg_proto != "http" %}
+            {% assign cimg = cimg | relative_url %}
+          {% endif %}
+         <img class="block-fill" src="{{cimg}}" alt="{{project.title}}">
+        </a>
+      </div>
+      <h4 class=""><a class="post-link" href="{{ pg.url | relative_url }}">{{pg.title}}</a></h4>
+      {% assign excerpt = pg.content | split: "</h1>" %}
+      <p>{{ excerpt[1] | strip_html | truncatewords: 100 }}</p><a href="{{pg.url | relative_url }}">Read More.</a></p>
+    </div>
+  </div>
+{% endfor %}

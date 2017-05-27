@@ -1,0 +1,92 @@
+url: 
+baseurl: 
+
+# Site settings
+name: Null Hardware
+title: Hardware, Circuits, and Open Source
+email: "admin@nullhardware.com"
+description: "This is my kickass site description."
+
+#services
+google-analytics: 
+mailchimp:
+  url:
+  key:
+
+#images
+logo:
+  svg: /img/logo.svg
+  png: /favicons/android-chrome-192x192.png #192px x 192px
+default-thumb: https://placeholdit.imgix.net/~text?txtsize=38&txt=<img>&w=400&h=300
+excerpt_separator: "#"
+
+# Social networks usernames
+social:
+  twitter: nullhardware
+  facebook: nullhardware
+  github: nullhardware
+
+paginate: 5
+paginate_path: "/blog/page/:num/"
+
+collections:
+  inprogress:
+    output: true
+    permalink: /draft/:title/
+  projects:
+    output: true
+    permalink: /:collection/:path/
+  reference:
+    output: true
+    permalink: /:collection/:path/
+
+defaults:
+  -
+    scope:
+      path: ""
+    values:
+      layout: "default"
+  -
+    scope:
+      path: "" # an empty string here means all files in the project
+      type: "posts" # previously `post` in Jekyll 2.2.
+    values:
+      layout: "post"
+  -
+    scope:
+      path: "_posts/featured" # an empty string here means all files in the project
+      type: "posts" # previously `post` in Jekyll 2.2.
+    values:
+      categories: featured
+  -
+    scope:
+      path: ""
+      type: "inprogress"
+    values:
+      layout: "post"
+      isdraft: true
+  -
+    scope:
+      path: ""
+      type: "projects"
+    values:
+      layout: "project"
+
+# Build settings
+markdown: kramdown
+permalink: /blog/:slug/
+
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+sass:
+    style: compressed
+
+gems:
+  - jekyll-paginate
+  #- jekyll-postfiles
+
+exclude:
+  - "*.sublime-*"
+  - "Gemfile*"

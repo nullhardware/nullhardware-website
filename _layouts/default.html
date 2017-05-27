@@ -1,0 +1,59 @@
+---
+layout: base
+---
+<div class="container">
+  <div class="row">
+    <main role="main" id="content" class="col-md-9">
+      {{ content }}
+    </main>
+
+    <aside role="complementary" class="col-md-3">
+      {% if page.sidebar %}
+        {{page.sidebar | markdownify }}
+      {% endif %}
+      <div class="hidden-sm hidden-xs">
+        <h4>Follow Us</h4>
+        {% include snips/social.html social=site.social class="text-center" %}
+        <hr>
+      </div>
+      {% unless page.cta %}
+      <div>
+        <hr class="visible-xs-block visible-sm-block">
+        <h4>Want Weekly Updates?</h4>
+        <blockquote>Because mondays...</blockquote>
+        <div class="visible-lg-block visible-sm-block visible-xs-block">
+          {% include snips/mailchimp.html inline=true label='I Need \'em!' %}
+        </div>
+        <div class="visible-md-block">
+          {% include snips/mailchimp.html label="Give 'em to me." %}
+        </div>
+        <hr>
+      </div>
+      {% endunless %}
+      <div class="visible-md-block visible-lg-block">
+        <h4>Featured Posts</h4>
+        {% for post in site.categories.featured limit: 5 %}
+        <div class="block-4x3">
+          {% assign cimg = post.image.path | default: site.default-thumb %}
+          {% if post.image.thumb %}
+            {% assign cimg = post.image.thumb.path | default: post.image.thumb %}
+          {% endif %}
+          {% assign cimg_proto = cimg | slice: 0,4 %}
+          {% if cimg_proto != "http" %}
+            {% assign cimg_proto = cimg_proto | slice: 0 %}
+            {% if cimg_proto != "/" %}
+              {% assign cimg = cimg | prepend: post.url | prepend: site.baseurl %}
+            {% endif %}
+          {% endif %}
+          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">
+            <img class="block-fill" src="{{cimg}}" alt="..." />
+            <span class="label label-success block-label-featured" >Featured</span>
+          </a>
+        </div>
+        <h5><a class="" href="{{ post.url | prepend: site.baseurl }}">{{post.title}}</a> <small>{{post.date | date: "%b %-d, %Y"}}</small></h5>
+        {% endfor %}
+      </div>
+      <hr class="hidden-md hidden-lg">
+    </aside>
+  </div>
+</div>

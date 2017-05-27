@@ -1,0 +1,32 @@
+{% capture navdata %}
+  {% comment %}
+  ======================================================================================
+  Input is pagedata as returned by calc and parsed as an array using "|" as a separater.
+  output format is one line as follows:
+    older link | newer link
+  ======================================================================================
+  {% endcomment %}
+
+  {% assign cur_page = include.pagedata[0] | plus: 0 %}
+  {% assign last_page = include.pagedata[1] | plus: 0 %}
+  {% assign start = include.pagedata[2] | plus: 0 %}
+  {% assign total = include.pagedata[3] | plus: 0 %}
+  {% assign penultimate_page = last_page | minus: 1 %}
+
+  {% unless last_page == 1 or cur_page == 1 %}
+    {% if cur_page == 2 %}
+      {{ site.paginate_path | replace: ':num', 1 }}
+    {% elsif cur_page > last_page %}
+     {{ site.paginate_path | replace: ':num', penultimate_page }}
+    {% else %}
+      {{ paginator.previous_page_path }}"
+    {% endif %}
+  {% endunless %}
+  |
+  {% if cur_page < penultimate_page %}
+    {% assign next_page = cur_page | plus: 1 %}
+    {{ site.paginate_path | replace: ':num', next_page }}
+  {% elsif cur_page == penultimate_page %}
+    {{ '/blog/' }}
+  {% endif %}
+{% endcapture %}{% assign navdata = navdata | replace: " ","" | strip_newlines %}{{navdata}}

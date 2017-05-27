@@ -1,0 +1,37 @@
+---
+templates:
+  metadata:
+    opengraph: opengraph.html
+    twitter: card.html
+css:
+  inline: |
+    header .jumbotron { min-height: 75vh; color: #fff; position: relative; background: #000;}
+    header .jumbotron .container {position: absolute; top: 0; left: 0; right: 0; bottom: 0;}
+    header .jumbotron h2 {color: #ddd;}
+    .jumbotron-brand {
+      position: absolute;
+      top: 0;
+      right: 10px;
+      color: #ddd;
+      opacity: 0.8;
+    }
+    .jumbotron-brand:hover {
+      color: #fff;
+      opacity: 1;
+    }
+    section {
+      margin-top: 20px;
+    }
+---
+<!DOCTYPE html>
+<html>
+  {% include base/head.html %}
+  <body id="page-top">
+    <div data-spy="affix" data-offset-top="200" class="affix-hide"><a href="#" title="Go To Top">&nbsp;^&nbsp;</a></div>
+    {{ content }}
+    <footer role="contentinfo">
+    {% include base/footer.html %}
+    </footer>
+    {% include base/js.html %}
+  </body>
+</html>

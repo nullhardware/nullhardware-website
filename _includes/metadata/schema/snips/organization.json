@@ -1,0 +1,18 @@
+  {
+      "@type": "Organization",
+      "name": "{{site.name}}",
+      "url": "{{site.url}}",
+      "sameAs": [
+        {% for network in site.social %}
+          {% assign name = network[0] %}
+            "{{ site.data['social-links'][name] | append: network[1] }}"{% unless forloop.last %},{% endunless %}
+        {% endfor %}
+      ],
+      "logo": {
+        "@type": "ImageObject",
+        {% assign logo = site.logo.png | default: site.logo %}
+        "url": "{{ logo | prepend: site.baseurl | prepend: site.url }}",
+        "height": 192,
+        "width": 192
+      }
+  }

@@ -1,0 +1,310 @@
+---
+---
+
+/* sticky footer
+ * ----------------------------------------------------------- */
+
+body {
+	padding-bottom: 80px;
+	min-height: 100vh;
+	position: relative;
+}
+
+footer {
+	position:absolute;
+	left:0;
+	right:0;
+	bottom:0;
+}
+
+/* Formatting
+ * ----------------------------------------------------------- */
+
+h1, h2, h3, h4, .h1, .h2, .h3, .h4 {
+ 	margin-top: 0;
+}
+
+.navbar {
+	padding: 10px 0;
+	margin-bottom: 0;
+	.navbar-brand {
+		font-weight: bolder;
+	}
+}
+
+aside {
+	margin-top: 10px;
+}
+
+h2 small .label, h1 small .label {
+	position: relative;
+	top: -4px;
+}
+
+
+/* NAVBAR LOGO
+ * ----------------------------------------------------------- */
+
+#content > *:first-child {
+	@media (min-width: 768px + 1)
+	{
+		margin-left: 115px; /* space for navbar-logo overflow */
+	}
+}
+
+#content > .content-img:first-child {
+	margin-left: 0;
+	@media (max-width: 768px )
+	{
+		margin-left: -15px;
+		margin-right: -15px;
+	}
+}
+
+#content > h1 {
+	margin-top: 10px;
+}
+
+#content > .jumbotron:first-child {
+	border-radius: 0 0 6px 6px;
+}
+
+.logo {
+	width: 100px;
+	height: 40px;
+}
+.navbar-logo {
+	margin-top: 10px;
+	margin-right: 15px;
+	position: relative;
+
+	img {
+		position: absolute;
+		width: 100%;
+		height: auto;
+		top:2px;
+		left:0;
+	}
+	@media (max-width: 768px )
+	{
+		display: none;
+	}
+}
+
+/* Icons
+ * ----------------------------------------------------------- */
+
+.list-social{
+	svg {
+	  display: inline-block;
+	  width: 2em;
+	  height: 2em;
+  	border-radius: 50%;
+	  padding: 0.5em;
+	  stroke-width: 0;
+	  stroke: currentColor;
+	  fill: currentColor;
+	  background: #333;
+  }
+  a {
+  	display: inline-block;
+	  color: #eee;
+	  &:hover {
+	  	color: #fff;
+	  	svg {
+	  		background: #000;
+	  	}
+	  }
+	}
+}
+
+/* Fixed Aspect-Ratio divs /w centered content
+ * ----------------------------------------------------------- */
+
+@mixin fixed-aspect-mixin($w,$h) {
+ overflow: hidden;
+ position: relative;
+
+ &:before {
+ 	content: " ";
+ 	display: block;
+ 	padding-top: ($h/$w)*100%;
+ }
+}
+
+.block-4x3 {
+	@include fixed-aspect-mixin(4,3);
+}
+
+.block-2x1 {
+	@include fixed-aspect-mixin(2,1);
+}
+
+.block-1x1 {
+	@include fixed-aspect-mixin(1,1);
+}
+
+.block-fill {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%,-50%);
+	transform: translate(-50%,-50%);
+	display: block;
+	width: 100%;
+	height: auto;
+}
+
+.block-1third {
+		width: 33%;
+		margin: 5px 10px 0 0;
+}
+
+.block-inline {
+	display: inline-block;
+	margin-right: 10px;
+}
+
+.block-label-featured {
+	position: absolute;
+	top: 5px;
+	left: 0;
+}
+
+.content-img {
+	background-size: cover;
+}
+/*
+
+    .view_v {
+		position: absolute;
+		top: -38.8%;
+		left: -16.5%;
+		right: -16.5%;
+		bottom: -38.8%;
+		text-align: center;
+	}
+    
+	.view_v:before {
+		content: '';
+		display: inline-block;
+		height: 100%;
+		vertical-align: middle;
+	}
+
+    img { 
+		display: inline-block; 
+		max-width: 100%;
+		max-height: 100%;
+	} */
+
+/* Fonts
+ * ----------------------------------------------------------- */
+/* bitter-regular - latin */
+@font-face {
+  font-family: 'Bitter';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Bitter-Regular'),
+       url({{'/fonts/bitter-v10-latin-regular.woff2' | prepend: site.baseurl }}) format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+       url({{'/fonts/bitter-v10-latin-regular.woff'  | prepend: site.baseurl }}) format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* cabin-regular - latin */
+@font-face {
+  font-family: 'Cabin';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Cabin'), local('Cabin-Regular'),
+       url({{'/fonts/cabin-v10-latin-regular.woff2' | prepend: site.baseurl }}) format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+       url({{'/fonts/cabin-v10-latin-regular.woff'  | prepend: site.baseurl }}) format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+.fonts-loaded {
+{% include snips/fonts.css %}
+}
+
+input, textarea {
+	font-family: sans-serif;
+}
+
+/* Chatheads
+ * ----------------------------------------------------------- */
+ .img-chathead {
+ 	width: 5em;
+ 	max-width: 150px;
+ 	margin-right: 15px;
+ }
+
+/* Extra hidden
+ * ----------------------------------------------------------- */
+.hidden-xs-landscape {
+	@media screen and (max-width: 767px) and (min-aspect-ratio: 1/1) {
+		display: none!important;
+	}
+}
+
+.visible-xs-landscape {
+	display: none;
+	@media screen and (max-width: 767px) and (min-aspect-ratio: 1/1) {
+		display: block!important;
+	}
+}
+
+.hidden-xs-portrait {
+	@media screen and (max-width: 767px) and (max-aspect-ratio: 1/1) {
+		display: none!important;
+	}
+}
+
+.visible-xs-portrait {
+	display: none;
+	@media screen and (max-width: 767px) and (max-aspect-ratio: 1/1) {
+		display: block!important;
+	}
+}
+
+/* Top of page Affix
+ * ----------------------------------------------------------- */
+ .affix-hide {
+ 	visibility: hidden;
+ 	height:0;
+ 	width:0;
+ }
+ .affix {
+ 	visibility: visible;
+  	bottom: 0;
+ 	right: 0;
+ 	width: 2em;
+ 	font-size: 2em;
+ 	height: 1.5em;
+ 	text-align: center;
+ 	z-index: 10;
+ }
+
+ /* Blog Tags
+ * ----------------------------------------------------------- */
+ .tag-blog:target {
+ 	font-weight: bold;
+ 	font-size: 150%;
+ }
+
+ /* jumbotron backgrounds 
+ * ----------------------------------------------------------- */
+ .jumbotron {
+ 	position: relative;
+ 	margin-bottom: 10px;
+ 	z-index: 0;
+ 	overflow: hidden;
+ }
+ .jumbotron-background {
+	display: block;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-size: cover;
+	opacity: 0.65;
+	z-index: -1;
+ }

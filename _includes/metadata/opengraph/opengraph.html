@@ -1,0 +1,27 @@
+<meta content="{{ site.name }}" property="og:site_name">
+<meta content="{{ page.title | default: site.title }}" property="og:title">
+{% if page.date %} {% comment %} QUICK HACK - posts have dates {% endcomment %}
+  <meta content="article" property="og:type">
+{% else %}
+  <meta content="website" property="og:type">
+{% endif %}
+
+<meta content="{{ page.description | default: site.description}}" property="og:description">
+<meta content="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}" property="og:url">
+{% if page.date %}
+  <meta content="{{ page.date | date_to_xmlschema }}" property="article:published_time">
+  {% if site.social.facebook %}
+  <meta content="https://www.facebook.com/{{site.social.facebook}}" property="article:publisher">
+  {% endif %}
+{% endif %}
+
+{% assign thumb = page.image.thumb.path | default: page.image.thumb | default: page.image.path | default: site.default-thumb %}
+{% assign thumb_proto = thumb | slice: 0,4 %}
+{% if thumb_proto != "http" %}
+  {% assign thumb_proto = thumb_proto | slice: 0 %}
+  {% if thumb_proto != "/" %}
+    {% assign thumb = page.url | replace:'index.html','' | append: thumb  %}
+  {% endif %}
+  {% assign thumb = thumb |  prepend: site.baseurl | prepend: site.url %}
+{% endif %}
+<meta content="{{thumb}}" property="og:image">
