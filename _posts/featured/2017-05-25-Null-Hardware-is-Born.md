@@ -5,7 +5,7 @@ image:
   path: /img/generic/messy-desk-000000.jpg
   center: '60% 55%'
   width: 2048
-  height: 1535
+  height: 1024
   thumb: /img/generic/messy-desk-000000.thumb.jpg
 cta:
   title: "Don't be shy. SHARE."

@@ -1,7 +1,7 @@
 ---
 sidebar: |
     ## We're the approachable open-source hackers.
-    {: .h4}
+    {: .h3}
     
     *Our mission is to help makers and hackers master embedded development.*
 
@@ -28,7 +28,8 @@ Do you love **Arduinos**, **LEDs**, **Raspberry Pis**, **Microcontrollers**, and
 > *We weren't always this way*. As hackers, we started out trying to tear things apart. We reverse-engineered oscilloscope modules and tried cracking BIOS passwords with BusPirates. These may have been fun projects, but they didn't help anyone just starting out. So we've changed our name and our mission to reflect our new vision - a future where technology is accessible, programmable, and has unlocked potential.
 > 
 
-Open Hardware is successful when people know about it, learn about it, and actually use it. If you are as passionate about electronics and programming as we are, **share this site** with your friends, comment on our [blog](/blog/) posts, and send us your suggestions for topics to cover in our [Reference](/reference/) section.
+Open Hardware is successful when people *know about it*, *learn about it*, and actually **use** it. Help us by: **Sharing your passion** with your friends, commenting on our [blog](/blog/) posts, and [sending us](mailto:admin@nullhardware.com) your [topic](/reference/) suggestions.
+{: .lead }
 
 {% include snips/share.html class="h1 text-center list-inline" url="/" %}
 

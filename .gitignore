@@ -2,3 +2,4 @@ _old
 *.sublime-workspace
 _site
 Thumbs.db
+*.xcf
