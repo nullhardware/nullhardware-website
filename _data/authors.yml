@@ -5,10 +5,22 @@ andrew:
     Hacker, Photographer, Curler, & Dad in [#YEG](https://twitter.com/search?q=%23yeg). I'm a **true** Full-Stack developer 
     comfortable with everything from PCB design to Firmware Development, PHY design and verification, REST APIs, and HTML/JS. In my spare time I [fabricate keyfobs](https://www.fobricator.ca).
 
-    **Email**: andrew@andrewsteadman.ca **Home**: [andrewsteadman.ca](https://www.andrewsteadman.ca).
+    **Email**: andrew@nullhardware.com **Home**: [andrewsteadman.ca](https://www.andrewsteadman.ca).
   home: "https://www.andrewsteadman.com"
   image: /img/authors/andrew.png
   social:
     twitter: "steadmanticore"
     github: "asteadman"
     email: "andrew@andrewsteadman.ca"
+
+nouman:
+  name: Nouman Noor
+  type: editor
+  description: |
+    Hardware designer by day; hacker by night. My expertise lies in analog and mixed-signal circuit design with emphasis on reliability and extended operation in extreme environments. 
+    I possess advanced knowledge of power electronics, PCB design and SPICE simulation. In my spare time I can be found photographing landscapes and immersing myself in particle- and astro-physics. 
+
+    **Email**: nouman@nullhardware.com
+  image: /img/logo.svg
+  social:
+    email: nouman@nullhardware.com
