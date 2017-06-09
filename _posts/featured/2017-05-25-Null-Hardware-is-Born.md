@@ -1,5 +1,5 @@
 ---
-description: "Open Source Hardware and Software for Embedded Systems."
+description: "We're fed up with proprietary designs, so we're developing Open Source Hardware and Software for Embedded Systems. The journey starts now."
 tags: [starting]
 image:
   path: /img/generic/messy-desk-000000.jpg
