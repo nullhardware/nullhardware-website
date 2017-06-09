@@ -1,4 +1,6 @@
 ---
+title: We're approachable open-source hackers, don't be alarmed.
+description: Null Hardware loves Arduinos, Raspberry Pis, and electronics, but our mission is the help makers and hackers master all forms of embedded development.
 sidebar: |
     ## We're the approachable open-source hackers.
     {: .h3}

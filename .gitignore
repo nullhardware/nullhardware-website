@@ -3,3 +3,4 @@ _old
 _site
 Thumbs.db
 *.xcf
+.sass-cache

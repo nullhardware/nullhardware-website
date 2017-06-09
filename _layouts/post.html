@@ -14,7 +14,9 @@ templates:
         <h1 class="{% if page.isdraft %}text-danger{% endif %}">{{page.headline | default: page.title}}{% if page.isdraft %} (DRAFT){% endif %} <small>{% for tag in page.tags %}<a href="{{ '/blog/tags/' | pepend: site.baseurl}}#{{ tag | slugify }}" class="label label-info">#{{ tag }}</a> {% endfor %}</small></h1>
         <span class="pull-right">{% if page.author and site.data.authors[page.author] %}By: <a href="#author">{{ site.data.authors[page.author].name }}</a> | {% endif %}<time datetime="{{ page.date | date: "%Y-%m-%d" }}" >{{ page.date | date: "%b %-d, %Y" }}</time></span>
       	<hr>
+        <div class="markdown-body">
       	{{ content }}
+        </div>
       	{% if page.author and site.data.authors[page.author] %}
         <div id="author">
           {% include snips/author.html author=page.author %}
