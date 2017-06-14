@@ -53,9 +53,12 @@
       <script type="application/ld+json">{% include {{ s | prepend: "metadata/schema/"}} %}</script>
     {% endfor %}
 
-    {% if page.image %}
+    {% if page.image or page.draft_img %}
     <style>
       .content-img {
+        {% if page.draft_img %}
+        background-image: url("{{page.draft_img}}");
+        {% endif %}
         {% if page.image.path %}
         background-image: url("{{page.image.path}}");
         {% endif %}

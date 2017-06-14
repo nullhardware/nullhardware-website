@@ -27,7 +27,7 @@ These scenarios are far too common in our industry, but that's not the worst of 
 
 For years we ignored it. We're a team of [professional embedded developers](/about/). We were trained to filter out the good from the bad, to use our google-fu to seek out the answers that we sought. When we wanted something, we figured it out ourselves. We had access to expensive diagnostic equipment. We had simulation software and electronic design automation tools. But it caught up with us. It was constant work, but we have nothing more to show for it than some project in the rear-view mirror. No ground was gained, and we fought the same battles over and over again.
 
-# Frakking Toasters...
+## Frakking Toasters...
 
 The Arduino was born back in 2003. After almost 15 years, it stands as a testament to what open hardware can accomplish.
 
@@ -35,7 +35,7 @@ From toasters to drones, there's nothing an Arduino hasn't done. And we've seen 
 
 The truth is, we love making as much as you do, but we're jealous that you're having so much fun.
 
-# Bringing Back the Love
+## Bringing Back the Love
 
 To rekindle our love affair with electronics, we're planning a few new projects. We'll outline some of them below, but they're really just a starting point. A trajectory. A direction.
 

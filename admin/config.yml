@@ -14,6 +14,8 @@ collections:
     - {label: "Headline (the on-page h1)", name: "headline", widget: "string"}
     - {label: "Meta Description (ie: summary)", name: "description", widget: "string"}
     - {label: "Publish Date", name: "date", widget: "datetime"}
+    - {label: "Author (andrew, marcin, nouman, nurchi or blank)", name: "author", widget: "string"}
     - {label: "Featured Image", name: "draft_img", widget: "image"}
-    - {label: "Tags [more,than,one,in,square,brackets,like,this]", name: "tags", widget: "string"}
+    - {label: "Tags", name: "tags", widget: "list"}
+    - {label: "Excerpt (optional)", name: "excerpt", widget: "string"}
     - {label: "Body", name: "body", widget: "markdown"}

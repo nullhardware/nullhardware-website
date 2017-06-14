@@ -15,15 +15,22 @@
     var PostPreview = createClass({
       render: function() {
         var entry = this.props.entry;
-        var image = entry.getIn(['data', 'image']);
+        var image = entry.getIn(['data', 'draft_img']);
         var bg = image && this.props.getAsset(image);
         return h('div', {},
-          h('div', {className: "cover"},
-            h('h1', {}, entry.getIn(['data', 'title'])),
-            bg ? h('img', {src: bg.toString()}) : null
+          h('p', {},
+            h('span', {}, "Title: " + entry.getIn(['data', 'title']))
           ),
           h('p', {},
-            h('small', {}, "Written " + entry.getIn(['data', 'date']))
+            h('span', {}, "Description: " + entry.getIn(['data', 'description']))
+          ),
+          h('div', {className: "cover"},
+            bg ? h('img', {src: bg.toString()}) : null, 
+            h('h1', {}, entry.getIn(['data', 'headline']))
+          ),
+          h('p', {},
+            h('small', {}, "Written " + entry.getIn(['data', 'date'])),
+            h('small', {}, " By " + entry.getIn(['data', 'author']))
           ),
           h('div', {"className": "text"}, this.props.widgetFor('body'))
         );
@@ -31,7 +38,7 @@
     });
 
     CMS.registerPreviewTemplate("drafts", PostPreview);
-    /*CMS.registerPreviewStyle("/example.css");*/
+    CMS.registerPreviewStyle("example.css");
   </script>
 </body>
 </html>

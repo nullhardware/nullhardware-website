@@ -8,7 +8,7 @@ templates:
   <div class="row">
     <main role="main" class="col-md-9">
       <article id="content">
-      	{%if page.image %}
+      	{%if page.image or page.draft_img %}
       	<div class="block-2x1 content-img"></div>
       	{% endif %}
         <h1 class="{% if page.isdraft %}text-danger{% endif %}">{{page.headline | default: page.title}}{% if page.isdraft %} (DRAFT){% endif %} <small>{% for tag in page.tags %}<a href="{{ '/blog/tags/' | pepend: site.baseurl}}#{{ tag | slugify }}" class="label label-info">#{{ tag }}</a> {% endfor %}</small></h1>
@@ -25,7 +25,12 @@ templates:
     	</article>
     <aside>
     <!-- Remarkbox - readers want to communicate with you -->
-      <!-- <script type="text/javascript" src="https://demo.remarkbox.com/static/js/iframe-resizer/iframeResizer.min.js"></script><script type="text/javascript">thread_fragment=window.location.hash; thread_uri=window.location.href; document.write('<iframe id="remarkbox" src="https://demo.remarkbox.com/embed?thread_uri=' + thread_uri + '" title="remarkbox" width="100%" style="width: 100% !important; border: none !important; overflow: hidden !important;" allowtransparency="true" scrolling="no" horizontalscrolling="no" verticalscrolling="no" tabindex="0" seamless></iframe>'); iFrameResize({inPageLinks: true, initCallback: function(iframe){iframe.iFrameResizer.moveToAnchor(thread_fragment);}}, document.getElementById("remarkbox") );</script><noscript><iframe id="remarkbox" src="https://demo.remarkbox.com/embed?nojs=true" frameborder="0" style="height: 600px; width: 100%; border: none !important;" allowtransparency="true" height="600px" width="100%"></iframe></noscript> -->
+      {% if page.isdraft %}
+        <hr>
+        <br/>
+        <h1 class="h2">Comments</h1>
+        <script type="text/javascript" src="https://demo.remarkbox.com/static/js/iframe-resizer/iframeResizer.min.js"></script><script type="text/javascript">thread_fragment=window.location.hash; thread_uri=window.location.href; document.write('<iframe id="remarkbox" src="https://demo.remarkbox.com/embed?thread_uri=' + thread_uri + '" title="remarkbox" width="100%" style="width: 100% !important; border: none !important; overflow: hidden !important;" allowtransparency="true" scrolling="no" horizontalscrolling="no" verticalscrolling="no" tabindex="0" seamless></iframe>'); iFrameResize({inPageLinks: true, initCallback: function(iframe){iframe.iFrameResizer.moveToAnchor(thread_fragment);}}, document.getElementById("remarkbox") );</script><noscript><iframe id="remarkbox" src="https://demo.remarkbox.com/embed?nojs=true" frameborder="0" style="height: 600px; width: 100%; border: none !important;" allowtransparency="true" height="600px" width="100%"></iframe></noscript>
+      {% endif %}
     </aside>
     </main>
     <aside role="complementary" class="col-md-3">
