@@ -24,3 +24,17 @@ nouman:
   image: /img/logo.svg
   social:
     email: nouman@nullhardware.com
+
+marcin:
+  name: Marcin Misiewicz
+  type: editor
+  description: |
+    I've had a soldering iron in my hand since before I had a drivers license, and have the burns to prove it.
+    Embedded Systems Engineer by day, and embedded hacker by night, specializing in hardware and firmware integration.
+    I play with software defined radio's, [copy RFID fobs](https://www.fobricator.com), and try to break embedded devices as a hobby.
+
+    **Email**: marcin@nullhardware.com
+  image: /img/authors/marcin.jpg
+  social:
+    email: marcin@nullhardware.com
+    twitter: themartinm
