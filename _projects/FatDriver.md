@@ -6,6 +6,7 @@ image:
   width: 2048
   height: 1024
   thumb: /img/generic/floppy-233594.thumb.jpg
+  alt: A Floppy Disk - An example of a storage device that uses the FAT file system.
 ---
 
 # Embedded FatDriver

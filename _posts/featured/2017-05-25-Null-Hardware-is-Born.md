@@ -7,6 +7,7 @@ image:
   width: 2048
   height: 1024
   thumb: /img/generic/messy-desk-000000.thumb.jpg
+  alt: Electronic workbench with soldering iron, arm micro-controller, multimeter, and notebook
 cta:
   title: "Don't be shy. SHARE."
   body: |

@@ -6,7 +6,9 @@ layout: base
     <main role="main" class="col-md-9">
       <article id="content">
       	{%if page.image %}
-      	<div class="block-2x1 content-img"></div>
+        <div class="block-2x1 content-img">
+         <img class="block-fill" src="{{page.image.path | default: page.draft_img}}" {% if page.image.alt %} alt="{{page.image.alt}}" {% endif %} /> 
+        </div>
       	{% endif %}
       	{{ content }}
     	</article>
