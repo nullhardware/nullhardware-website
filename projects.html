@@ -27,7 +27,7 @@ permalink: /projects/index.html
           {% assign cimg = cimg | relative_url %}
         {% endif %}
         <div class="block-4x3">
-          <a class="post-link" href="{{ project.url | relative_url }}" title="{{project.title}}"><img class="block-fill" src="{{cimg}}" alt="{{project.title}}"></a>
+          <a class="post-link" href="{{ project.url | relative_url }}" title="{{project.title}}"><img class="block-fill" src="{{cimg}}" {% if project.image.alt %} alt="{{project.image.alt}}" {% endif %}></a>
         </div>
         <div class="caption">
           <h3>{{project.title}}</h3>
