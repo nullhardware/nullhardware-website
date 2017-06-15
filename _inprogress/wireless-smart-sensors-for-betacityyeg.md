@@ -32,7 +32,7 @@ Our fist project was a Pedestrian Counter, which was aimed at quantifying the fl
 
 As a first step, a simple meter was developed to estimate pedestrian traffic.
 
-`TODO: pedestrain traffic graph`
+![Graph of pedestrian traffic in Edmonton during trial.](/img/drafts/pedestrain-counter-graph-00000.jpg)
 
 To simply the collection of data for everyone involved, open hardware was used to collect the data using available sensors, and present it in an easy to understand format that could be collected by authorized representatives of the City of Edmonton. For anyone who is interested in the technical details, each sensor unit contained a protected WiFi access point that provides a web interface (including a graph and a download link for the most recently collected data). Authorized representatives are able to collect the data by connecting to the access points and downloading the most recent data.
 
@@ -49,3 +49,4 @@ Although these projects are exciting, they represent independent projects with t
 BetaCityYEG and the City of Edmonton are both dedicated to improving [#opendata](https://twitter.com/search?q=opendata) and maintaining Edmonton's leadership as Canada's most Open City. To do that, investment in open hardware and other open data initiatives are absolutely a must. I am very excited to be a part of these initiatives, and I hope to help provide more open hardware and open data to the City.
 
 If you have an idea or a project that can help cities better serve their citizens, we'd love to hear about it. Please [let us know](mailto:admin@nullhardware.com).
+
