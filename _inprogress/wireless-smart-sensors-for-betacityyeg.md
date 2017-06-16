@@ -11,42 +11,49 @@ draft_img: /img/drafts/betacity-board-stack-00000.jpg
 tags:
   - opendata
 excerpt: >-
-  doh. not actually optional at the moment. Put the text that you want to appear
-  in the "blog post listing" here.
+  Cities are put in a tough spot. They want to provide their citizens with the
+  best possible benefits, the best possible transportation, and the best
+  possible reasons to live there. However, they don't really have the data they
+  need to make informed decisions. BetaCityYEG has a vision of developing open
+  civic technology to make this possible. After all, how can you serve your
+  citizens without understanding them first?
 ---
-The problem is that cities today want to have it both ways. They want to provide their citizens with the best possible benefits, the best possible transportation, and the best possible reasons to live there. However, they don't always understand the intricate details about the daily lives of their own citizens.
+Cities are put in a tough spot. They *want* to provide their citizens with the best possible benefits, the best possible transportation, and the best possible reasons to live there. However, they don't really have the data they need to make informed decisions. [BetaCityYEG](http://betacity.ca) has a vision of developing open civic technology to make this possible.
 
-How do you serve your citizens without understanding them first?
+> After all, how can you serve your citizens without understanding them first?
 
-## Open data
+## Open data and Citizen Science
 
-For over a year now, I've been helping the City of Edmonton collect data to better understand it's constituents. In fact, the [city](http://www.edmonton.ca) has once again been named Canada's Most Open City in the 2017 Open Cities Index, in part due to the dedication of [BetaCityYeg](https://betacity.ca/).
+For over a year now, I've been designing hardware to help the [City of Edmonton](http://www.edmonton.ca) collect [data](https://data.edmonton.ca/). The concept is to use open-source platforms (Arduino, Raspberry Pi, etc...), tie them in to sensors, and give the city some much needed insight into the inner workings of Edmonton.
 
-It has been a true honor to help develop *Citizen Science* initiatives like the *Pedestrian Counter* (now in version 3.0) and a *Weather Station* for air quality monitoring here in Edmonton.
+Edmonton is actually a surprising spot for an initiative like this. We have long, dark winters, and the extreme cold is hell on electronics. It isn't an easy task to take off-the-shelf modules and turn them into a platform rugged enough to survive out here. But the payoff is a something that will eventually affect the lives of everyone who lives here.
 
-## Citizen Science
+The implications of arming a city (and its citizens) with data was discussed in a recent Edmonton Journal [article](http://edmontonjournal.com/news/local-news/edmontons-new-smart-city-data-network-aims-to-arm-citizens-with-the-facts). Projects like this clearly have the potential to transform civic debate and planning, which is exactly why BetaCityYEG is dedicated to developing low-cost citizen-lead open-data initiatives.
 
-Part of the mission of [BetaCityYEG](https://betacity.ca/) was recently discussed in an article in the [Edmonton Journal](http://edmontonjournal.com/news/local-news/edmontons-new-smart-city-data-network-aims-to-arm-citizens-with-the-facts).  The idea is to create a low-cost citizen-lead  initiative that could provide the [City of Edmonton](http://edmonton.ca) with the data it needs to better serve it's constituents. For over the last year, I've been helping develop open hardware (and software) to better help the city make informed decisions.
+## Unglamorous and Ugly
 
-Our fist project was a Pedestrian Counter, which was aimed at quantifying the flow of pedestrians in the newly revitalized downtown district. As many of you may know, there has been a critical investment in the downtown area over the past couple of years, including the newly open [Rogers Place](http://www.rogersplace.com/), home of the [Edmonton Oilers](https://www.nhl.com/oilers). As a result, the [City of Edmonton](http://edmonton.ca) has been very interested in how traffic and pedestrian patterns may have changed. BetaCityYEG is part of a citizen lead movement to better understand how investment in infrastructure might change the behavior of Edmonton citizens. To do that, they have turned to measuring pedestrian traffic in critical areas, such as those immediately surrounding Rogers Place.
+I presented some of my work at the recent  [Canadian Open Data Summit](http://opendatasummit.ca/). The truth is that to the layperson, these projects are unsexy. They don't contain advanced electronics, and if you saw one, you probably wouldn't even give it a second glance. The real value of these projects is combining what appear to be simple data points into a living, breathing, dynamic model of exactly the City of Edmonton is up to.
 
-As a first step, a simple meter was developed to estimate pedestrian traffic.
+Over the last couple years there has been heavy investment in the downtown core, particularly around the newly opened [Rogers Place](http://www.rogersplace.com/), home of the [Edmonton Oilers](https://www.nhl.com/oilers). As a result, the [City of Edmonton](http://edmonton.ca) has been very interested in how traffic and pedestrian patterns may have changed. My first project was the hardware to quantify the flow of pedestrians in this newly revitalized downtown district. *What does it look like?* It's an unassuming box with a motion sensor.
+
+Behind the scenes, it presents the data it logs in an easy to understand graph, while making the raw data available for detailed analysis. Basically, each sensor unit contains a protected WiFi access point. You login to the access point with your password, you connect to the web interface, and you download the most recent data with a click. 
+
+Here's a peak into an early development version of that interface:
 
 ![Graph of pedestrian traffic in Edmonton during trial.](/img/drafts/pedestrain-counter-graph-00000.jpg)
 
-To simply the collection of data for everyone involved, open hardware was used to collect the data using available sensors, and present it in an easy to understand format that could be collected by authorized representatives of the City of Edmonton. For anyone who is interested in the technical details, each sensor unit contained a protected WiFi access point that provides a web interface (including a graph and a download link for the most recently collected data). Authorized representatives are able to collect the data by connecting to the access points and downloading the most recent data.
-
 ## Weather Monitoring
 
-Air quality monitoring is extremely important for cities like Edmonton who have a large base of industrial businesses in close proximity to populated areas. In fact, individual neighborhoods may have their own unique needs and/or concerns regarding air quality. Unfortunately, the official air quality testing done by the Province of Alberta isn't detailed enough for the city to make informed decisions. As a result, BetaCityYEG was tasked with the development of mechanism for measuring air quality and other important factors such as wind speed, rainfall, temperature and humidity. This data is critical for better serving the citizens of Edmonton, as well as planing and zoneing future development.
+Air quality monitoring is extremely important for cities like Edmonton who have a large base of industrial businesses in close proximity to populated areas. In fact, your neighborhood may concerns which are totally different from your friend across town. Unfortunately, the official air quality testing done by the Province of Alberta isn't detailed enough for the city understand these fine details. As a result, BetaCityYEG was tasked with the development of mechanism for measuring air quality plus other important factors such as wind speed, rainfall, temperature and humidity. This data is critical for better serving the citizens of Edmonton, as well as planing and zoneing future development.
 
 ## A connected future
 
-Although these projects are exciting, they represent independent projects with their own agendas. In the near future, the hope is that all of these related projects will communicate with each other and all of the data will centralized into one convenient source. This is the goal of city-wide network technologies such as LoRa/LoRaWAN™. Instead of using an off-the-shelf Wifi or Bluetooth module, the hope is to add wireless modules that are capable of communicating over several kilometers. Being able to collect data from all over Edmonton is a goal of BetaCityYEG, and it's one that will provide immediate value, given the distributed layout of the City of Edmonton. 
+In the near future, the hope is that all of these related projects will communicate with each other and all of the data will centralized into one convenient source. This is the goal of city-wide network technologies such as LoRa/LoRaWAN™. Instead of using an off-the-shelf Wifi or Bluetooth module, the hope is to add wireless modules that are capable of communicating over several kilometers. Being able to collect data from all over Edmonton is a goal of BetaCityYEG, and it's one that will provide immediate value, given the distributed layout of the City of Edmonton. 
 
 ## Coming Up
 
-BetaCityYEG and the City of Edmonton are both dedicated to improving [#opendata](https://twitter.com/search?q=opendata) and maintaining Edmonton's leadership as Canada's most Open City. To do that, investment in open hardware and other open data initiatives are absolutely a must. I am very excited to be a part of these initiatives, and I hope to help provide more open hardware and open data to the City.
+BetaCityYEG and the City of Edmonton are both dedicated to improving [#opendata](https://twitter.com/search?q=opendata). In recognition of this leadership, the city was named Canada's Most Open City in June 2017, for the second year in a row. For Edmonton, continued investment in open hardware and other open data initiatives are absolutely a must. I am very excited to be a part of these initiatives, and I hope to help provide more open hardware and open data to the City.
 
-If you have an idea or a project that can help cities better serve their citizens, we'd love to hear about it. Please [let us know](mailto:admin@nullhardware.com).
+If **you** have an idea or a project that can help cities better serve their citizens, we'd love to hear about it. Please [send us an email](mailto:admin@nullhardware.com).
+
 
