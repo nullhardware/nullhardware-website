@@ -308,3 +308,13 @@ input, textarea {
 	opacity: 0.65;
 	z-index: -1;
  }
+
+ /* article images
+ * ----------------------------------------------------------- */
+ article#content img {
+  display: block;
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 5px;
+ }

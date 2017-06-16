@@ -7,16 +7,14 @@ description: >-
   opendata.
 date: 2017-06-16T11:15:35-06:00
 author: marcin
-draft_img: /img/drafts/betacity-board-stack-00000.jpg
+image:
+  path: /img/blog/2017-06-16/betacity-board-stack-00000.jpg
+  width: 2048
+  height: 1024
+  thumb: /img/blog/2017-06-16/betacity-board-stack-00000.thumb.jpg
+  alt: Proto board for BetaCityYEGs wireless sensor project
 tags:
   - opendata
-excerpt: >-
-  Cities are put in a tough spot. They want to provide their citizens with the
-  best possible benefits, the best possible transportation, and the best
-  possible reasons to live there. However, they don't really have the data they
-  need to make informed decisions. BetaCityYEG has a vision of developing open
-  civic technology to make this possible. After all, how can you serve your
-  citizens without understanding them first?
 ---
 Cities are put in a tough spot. They *want* to provide their citizens with the best possible benefits, the best possible transportation, and the best possible reasons to live there. However, they don't really have the data they need to make informed decisions. [BetaCityYEG](https://betacity.ca/) has a vision of developing open civic technology to make this possible.
 
@@ -36,17 +34,17 @@ I presented some of my work at the recent  [Canadian Open Data Summit](http://op
 
 Over the last couple years there has been heavy investment in the downtown core, particularly around the newly opened [Rogers Place](http://www.rogersplace.com/), home of the [Edmonton Oilers](https://www.nhl.com/oilers). As a result, the [City of Edmonton](http://edmonton.ca) has been very interested in how traffic and pedestrian patterns may have changed. My first project was the hardware to help quantify the flow of pedestrians in this newly revitalized downtown district. *What does it look like?* It's an unassuming box with a motion sensor.
 
-![Open Source Pedestrian Counter](/img/drafts/ped-counter-box-00000.jpg)
+![Open Source Pedestrian Counter](/img/blog/2017-06-16/ped-counter-box-00000.jpg)
 
 Behind the scenes, it presents the data it logs in an easy to understand graph, while making the raw data available for detailed analysis. Basically, each sensor unit contains a protected WiFi access point. You login to the access point with your password, you connect to the web interface, and you download the most recent data with a click.  This early version used WiFi as a stand-in for the LoRA network connectivity that is in the works, and while requiring someone to go and collect the data, it is “good enough” to get the ball rolling and get data flowing back to the interested parties.
 
 Here's a peak into an early development version of that interface:
 
-![Pedestrian Traffic Counter Interface Demo](/img/drafts/pedestrain-counter-graph-00000.jpg)
+![Pedestrian Traffic Counter Interface Demo](/img/blog/2017-06-16/pedestrain-counter-graph-00000.jpg)
 
 ## Weather Monitoring
 
-![Weather Statio Build](/img/drafts/weather-station-build-00000.jpg)
+![Weather Statio Build](/img/blog/2017-06-16/weather-station-build-00000.jpg)
 
 [Air quality monitoring is extremely important](http://capitalairshed.ca/news/new-efforts-aim-to-understand-poor-air-quality-in-edmonton) for northern cities like Edmonton who have a large base of industrial businesses in close proximity to populated areas. In fact, your neighborhood most likely faces conditions which are totally different from your friend's across town. Unfortunately, the official air quality testing done by the Province of Alberta is [limited to a few sites](http://edmontonjournal.com/news/local-news/new-air-quality-gadgets-demystify-pollution). As a result, BetaCityYEG was tasked with the development of a cheap and easily deployable mechanism for measuring air quality plus other important factors such as wind speed, rainfall, temperature and humidity. The availability of more granular data on a neighbourhood level is critical for better serving the citizens of Edmonton, as well as planing and zoneing future development. A preliminary prototype of the weather station was presented at the Canadian Open Data Summit 2017. When completed, plans are to release the entire design as an open-source project.
 
