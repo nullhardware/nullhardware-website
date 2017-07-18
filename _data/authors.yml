@@ -38,3 +38,17 @@ marcin:
   social:
     email: marcin@nullhardware.com
     twitter: themartinm
+
+nurchi:
+  name: Nurchi Guseynov
+  type: editor
+  description: |
+    Hardware/firmware designer by training; husband and father by calling; software developer, hacker, photographer, maker, and welder by hobby. I like to make stuff (then often just give it away). 
+    I love taking pictures of landscapes, sunrise/sunset, waterbodies - nature in general. 
+    With a NAIT diploma in Electronics Engineering Technology, I know how to build stuff; and with University degree in Electrical Engineering, I know why it works that way...
+
+
+    **Email**: nurchi@nullhardware.com
+  image: /img/logo.svg
+  social:
+    email: nurchi@nullhardware.com
