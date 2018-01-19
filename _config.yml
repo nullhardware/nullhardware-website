@@ -83,10 +83,12 @@ kramdown:
 sass:
     style: compressed
 
-gems:
+plugins:
   - jekyll-paginate
   #- jekyll-postfiles
 
 exclude:
   - "*.sublime-*"
   - "Gemfile*"
+  - "README.txt"
+  - "docker-compose.yml"

@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
-gem 'jekyll'
-gem 'github-pages'
-gem 'jekyll-postfiles'
 gem 'wdm', '>= 0.1.0' if Gem.win_platform?
-gem 'jekyll-paginate'
+gem 'jekyll'
+
+gem 'github-pages', group: :jekyll_plugins
+gem 'jekyll-postfiles', group: :jekyll_plugins
+gem 'jekyll-paginate', group: :jekyll_plugins
+
