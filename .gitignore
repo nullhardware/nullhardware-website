@@ -4,3 +4,4 @@ _site
 Thumbs.db
 *.xcf
 .sass-cache
+vendor

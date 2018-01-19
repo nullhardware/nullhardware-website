@@ -92,3 +92,4 @@ exclude:
   - "Gemfile*"
   - "README.txt"
   - "docker-compose.yml"
+  - "vendor"
