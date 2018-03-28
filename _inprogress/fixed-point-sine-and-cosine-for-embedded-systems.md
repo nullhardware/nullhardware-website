@@ -56,7 +56,7 @@ c_5 &= a_5 - \frac{3}{2}
 \end{aligned}
 {% endkatex %}
 
-The only tricky part is to write this equation in terms of integer multiplications. My intended target is (mostly) portable C code. As a result, I will write my multiplications such that the multiplicand, multiplier, and product are all of the same type (uint_32t). This is a strange way to write multiplications, and really only makes "sense" in C. Further optimizations specialized to your MAC HW (if you have one) are probably worth while if speed is required.
+The only tricky part is to write this equation in terms of integer multiplications. My intended target is (mostly) portable C code. As a result, I will write my multiplications such that the multiplicand, multiplier, and product are all of the same type (uint32_t). This is a strange way to write multiplications, and really only makes "sense" in C. Further optimizations specialized to your MAC HW (if you have one) are probably worth while if speed is required.
 
 {% katex display %}
 \begin{aligned}
@@ -74,5 +74,13 @@ fpsin_5(x) &= z \bigg( a_5 - z^2 \bigg[ 2 a_5 - \frac{5}{2} - z^2 \bigg(a_5 - \f
  &= \frac{y}{2^n} \bigg( a_5 - \frac{y^2}{2^{2n}} \bigg[ 2 a_5 - \frac{5}{2} - \frac{y^2}{2^{2n}} \bigg(a_5 - \frac{3}{2}\bigg) \bigg] \bigg) 2^A \\
  &= y \bigg( a_5 - y^2 2^{-2n} \bigg[ 2 a_5 - \frac{5}{2} - y^2 2^{-2n} \bigg(a_5 - \frac{3}{2}\bigg) \bigg] \bigg) 2^{A-n} \\
  &= y \Bigg( a_5 - y 2^{-n} y 2^{-n} \Bigg[ 2 a_5 - \frac{5}{2} - y 2^{-n} \Bigg( 2^{-n} \bigg[ a_5 - \frac{3}{2}\bigg] y \Bigg) \Bigg] \Bigg) 2^{A-n} \\
+\end{aligned}
+{% endkatex %}
+
+The most interior multiplication is {% katex %}2^{-n} \big[ a_5 - \frac{3}{2} \big] y{% endkatex %}. If we want to maximize percision, we need this value to occupy as much of our chosen product type (`uint32_t`) as we can. To this end, we introduce a scaling factor {% katex %}2^p{% endkatex %}.
+
+{% katex display %}
+\begin{aligned}
+fpsin_5(x) &= y \Bigg( a_5 - y 2^{-n} y 2^{-n-p} \Bigg[ 2^p \bigg( 2 a_5 - \frac{5}{2} \bigg) - y 2^{-n} \Bigg( 2^{p-n} \bigg[ a_5 - \frac{3}{2}\bigg] y \Bigg) \Bigg] \Bigg) 2^{A-n}
 \end{aligned}
 {% endkatex %}
