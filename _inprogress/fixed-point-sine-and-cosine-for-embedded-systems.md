@@ -24,3 +24,17 @@ Since this is a 5th order approximation, I will restrict the derivation discussi
 ## Domain
 
 The domain of {% katex %}\sin(x){% endkatex %} is infinite. However, it only provides unique (positive) values within the range {% katex %}x \in [0, \frac{\pi}{2}]{% endkatex %}. All the other outputs can be calculated based on the values within this range and the symmetry of the sine function.
+
+In general, the input to the sine function can be positive or negative. It can be fractional, and it can even be irrational. A fixed-point sine should (probably) accept a fixed-point angle as an input. There are many possible choices for the exact mapping to choose, but I will outline a convenient one below.
+
+Whole angles (in degrees) range from 0-360. An 8-bit integer could at most represent 256 unique values, which is a coarser resolution than a degree, and probably in-suitable for all but the roughest of approximations. The next logical step up is allowing up to 16-bit inputs.
+
+Signed (two's complement) 16-bit numbers can take values in the range {% katex %}[-32768, 32767]{% endkatex %}. Signed values are nice because angles are quite often represented as positive or negative in many contexts. Unsigned values, on the other hand, would allow us to maximize the bitwise precision of all of our integer multiplications without having to compromise any bits for representing the sign. 
+
+Fortunately, the periodicity of the sine function allows us to have our cake and eat it too. If we strategically choose a value of +32768 to be exactly equal to {% katex %}2\pi{% endkatex %}, then we can write a function with a signature of `int fpsin(int16_t x)` and internally cast the signed value `x` to be unsigned like this: `uint16_t x_ = (uint16_t)x`, then we'd have the following:
+
+```c
+fpsin(-32768) = fpsin((uint16_t)-32768) = fpsine(32768)
+```
+
+And since we've strategically chosen 32768 to be equal to {% katex %}2\pi{% endkatex %}, `fpsin(-32768) = fpsine(32768) = `{% katex %}\sin(2\pi) = sin(0) = 0.{% endkatex %}
