@@ -7,7 +7,7 @@ description: >-
   0.01% Full-Scale.
 date: 2018-03-28T02:51:18.098Z
 author: andrew
-draft_img: /img/drafts/DSC05499_500_501_fused-4.jpg
+draft_img: /img/drafts/sin_graph.png
 tags:
   - math
 ---
@@ -41,7 +41,7 @@ And since we've strategically chosen 32768 to be equal to {% katex %}2\pi{% endk
 
 In essence, by matching the periodicity of the sine function with the overflow behavior of 16-bit integers [`65535+1 = 0`] as well as the the two's complement representation of signed numbers [`(uint16_t)-32768 = +32768`], we can cast the input value to be unsigned without any loss of information.
 
-The end result is that we've chosed the fixed-point representation of our input to be 32768 units/circle. IE: 15 bits.
+The end result is that we've chose the fixed-point representation of our input to be 32768 units/circle. IE: 15 bits.
 
 ## The approximation
 
@@ -56,31 +56,92 @@ c_5 &= a_5 - \frac{3}{2}
 \end{aligned}
 {% endkatex %}
 
-The only tricky part is to write this equation in terms of integer multiplications. My intended target is (mostly) portable C code. As a result, I will write my multiplications such that the multiplicand, multiplier, and product are all of the same type (uint32_t). This is a strange way to write multiplications, and really only makes "sense" in C. Further optimizations specialized to your MAC HW (if you have one) are probably worth while if speed is required.
+The only tricky part is to write this equation in terms of integer multiplications. My intended target is (mostly) portable C code. As a result, I will write my multiplications such that the multiplicand, multiplier, and product are all of the same type (uint32_t). This is a strange way to write multiplications, and really only makes "sense" in C. Further optimizations specialized to your MAC HW (if you have one) are probably worth while if speed is required. Since we want a fixed-point value as an output, so we multiply the actual value by a fixed-point multiplier {% katex %}2^a{% endkatex %}.
 
 {% katex display %}
 \begin{aligned}
-sin_5(x) &= a_5 z - b_5 z^3 + c_5 z^5 \\
- &= a_5 z - \bigg(2 a_5 - \frac{5}{2} \bigg) z^3 + \bigg(a_5 - \frac{3}{2}\bigg) z^5 \\
- &= z \bigg( a_5 - z^2 \bigg[ 2 a_5 - \frac{5}{2} - z^2 \bigg(a_5 - \frac{3}{2}\bigg) \bigg] \bigg)
+fpsin_5(x) &=\bigg( a_5 z - b_5 z^3 + c_5 z^5 \bigg) 2^a
 \end{aligned}
 {% endkatex %}
 
-Next, we want a fixed-point value as an output, so we want the actual value multiplied by our fixed-point multiplier (in this case {% katex %}2^A{% endkatex %}). Since {% katex %}2\pi = 32768{% endkatex %}, we know {% katex %}\frac{\pi}{2} = 8192 = 2^n{% endkatex %} where {% katex %}n = 13{% endkatex %}. Therefore, we can write {% katex %}z{% endkatex %} as {% katex %}\frac{y}{2^n}{% endkatex %}.
+Also, since {% katex %}2\pi = 32768{% endkatex %}, we know {% katex %}\frac{\pi}{2} = 8192 = 2^n{% endkatex %} where {% katex %}n = 13{% endkatex %}. Therefore, we can write {% katex %}z{% endkatex %} as {% katex %}\frac{y}{2^n}{% endkatex %}.
 
 {% katex display %}
 \begin{aligned}
-fpsin_5(x) &= z \bigg( a_5 - z^2 \bigg[ 2 a_5 - \frac{5}{2} - z^2 \bigg(a_5 - \frac{3}{2}\bigg) \bigg] \bigg) 2^A\\
- &= \frac{y}{2^n} \bigg( a_5 - \frac{y^2}{2^{2n}} \bigg[ 2 a_5 - \frac{5}{2} - \frac{y^2}{2^{2n}} \bigg(a_5 - \frac{3}{2}\bigg) \bigg] \bigg) 2^A \\
- &= y \bigg( a_5 - y^2 2^{-2n} \bigg[ 2 a_5 - \frac{5}{2} - y^2 2^{-2n} \bigg(a_5 - \frac{3}{2}\bigg) \bigg] \bigg) 2^{A-n} \\
- &= y \Bigg( a_5 - y 2^{-n} y 2^{-n} \Bigg[ 2 a_5 - \frac{5}{2} - y 2^{-n} \Bigg( 2^{-n} \bigg[ a_5 - \frac{3}{2}\bigg] y \Bigg) \Bigg] \Bigg) 2^{A-n} \\
+ &= z \bigg( a_5 - z^2 \bigg[ b_5 - z^2 c_5 \bigg] \bigg) 2^a\\
+ &= \frac{y}{2^n} \bigg( a_5 - \frac{y^2}{2^{2n}} \bigg[ b_5 - \frac{y^2}{2^{2n}} c_5 \bigg] \bigg) 2^a \\
+ &= y 2^{-n} \bigg( a_5 - y^2 2^{-2n} \bigg[ b_5 - y^2 2^{-2n} c_5 \bigg] \bigg) 2^{a} \\
+ &= y 2^{-n} \Bigg( a_5 - y 2^{-n} y 2^{-n} \Bigg[ b_5 - y 2^{-2n} c_5 y \Bigg] \Bigg) 2^{a}
 \end{aligned}
 {% endkatex %}
 
-The most interior multiplication is {% katex %}2^{-n} \big[ a_5 - \frac{3}{2} \big] y{% endkatex %}. If we want to maximize percision, we need this value to occupy as much of our chosen product type (`uint32_t`) as we can. To this end, we introduce a scaling factor {% katex %}2^p{% endkatex %}.
+To maximize precision, we need each of our multiplications to occupy as much of our chosen product type (`uint32_t`) as we can. To this end, we introduce scaling factors {% katex %}2^p{% endkatex %}, {% katex %}2^q{% endkatex %}, and {% katex %}2^r{% endkatex %}, being careful that they each cancel out.
 
 {% katex display %}
 \begin{aligned}
-fpsin_5(x) &= y \Bigg( a_5 - y 2^{-n} y 2^{-n-p} \Bigg[ 2^p \bigg( 2 a_5 - \frac{5}{2} \bigg) - y 2^{-n} \Bigg( 2^{p-n} \bigg[ a_5 - \frac{3}{2}\bigg] y \Bigg) \Bigg] \Bigg) 2^{A-n}
+ &= y 2^{-n} \Bigg( a_5 - y 2^{-n} y 2^{-n} \Bigg[ b_5 - 2^{-r} y 2^{-2n} 2^r c_5 y \Bigg] \Bigg) 2^{a} \\
+  &= y 2^{-n} \Bigg( a_5 - 2^{-p} y 2^{-n} y 2^{-n} \Bigg[ 2^p b_5 - 2^{-r} y 2^{-2n} 2^{r+p} c_5 y \Bigg] \Bigg) 2^{a} \\
+  &= y 2^{-n} \Bigg( 2^q a_5- 2^{q-p} y 2^{-n} y 2^{-n} \Bigg[ 2^p b_5 - 2^{-r} y 2^{-n} 2^{r+p-n} c_5 y \Bigg] \Bigg) 2^{a-q}
 \end{aligned}
 {% endkatex %}
+
+Now, if we re-define the constants follows {% katex %}A_1 = 2^{q}a_5 {% endkatex %}, {% katex %} B_1 = 2^{p} b_5 {% endkatex %}, and {% katex %} C_1 = 2^{r+p-n} c_5 {% endkatex %}, we get:
+
+{% katex display %}
+\begin{aligned}
+  &= y 2^{-n} \Bigg( A_1 - 2^{q-p} y 2^{-n} y 2^{-n} \Bigg[ B_1 - 2^{-r} y 2^{-n} C_1 y \Bigg] \Bigg) 2^{a-q} 
+\end{aligned}
+{% endkatex %}
+
+*Note*: All but the innermost multiplication by {% katex %}y{% endkatex %} has been preceded by a multiplication by {% katex %}2^{-n}{% endkatex %}. Since the largest value of {% katex %}y{% endkatex %} is {% katex %}2^n{% endkatex %}, we know {% katex %}y 2^{-n} x \le x{% endkatex %} (where {% katex %}x{% endkatex %} is any number).
+
+We can now try and maximize each multiplication, working from the inner-most multiplication outward, such that each product (assuming {% katex %}y{% endkatex %} is {% katex %}2^n = 2^{13}{% endkatex %}) is exactly 32 bits. We also scale the fixed-point result to be as large as possible while introducing error only in the least significant bit. The end result is:
+
+{% katex display %}
+\begin{aligned}
+  a &= 12 \\
+  p &= 32 \\
+  q &= 31 \\
+  r &= 3 \\
+  \text{and:}\\
+  A_1 &= 3370945099 \\
+  B_1 &= 2746362156 \\
+  C_1 &= 292421
+\end{aligned}
+{% endkatex %}
+
+## Code
+
+The only remaining task is to convert the above equation into C code. Some tricks are done to determine the sign of the output, as well as to keep the input range from {% katex %}[0,2^{13}]{% endkatex %}, but otherwise everything is pretty straightforward.
+
+```c
+int16_t fpsin(int16_t i)
+{
+    /* Convert (signed) input to a value between 0 and 8192. (8192 is pi/2, which is the region of the curve fit). */
+    /* ------------------------------------------------------------------- */
+    i <<= 1;
+    uint8_t c = i<0; //set carry for output pos/neg
+
+    if(i == (i|0x4000)) // flip input value to corresponding value in range [0..8192)
+        i = (1<<15) - i;
+    i = (i & 0x7FFF) >> 1;
+    /* ------------------------------------------------------------------- */
+
+    /* The following section implements the formula:
+     = y * 2^-n * ( A1 - 2^(q-p)* y * 2^-n * y * 2^-n * [B1 - 2^-r * y * 2^-n * C1 * y]) * 2^(a-q)
+    Where the constants are defined as follows:
+    */
+    enum {A1=3370945099UL, B1=2746362156UL, C1=292421UL};
+    enum {n=13, p=32, q=31, r=3, a=12};
+
+    uint32_t y = (C1*((uint32_t)i))>>n;
+    y = B1 - (((uint32_t)i*y)>>r);
+    y = (uint32_t)i * (y>>n);
+    y = (uint32_t)i * (y>>n);
+    y = A1 - (y>>(p-q));
+    y = (uint32_t)i * (y>>n);
+    y = (y+(1UL<<(q-a-1)))>>(q-a); // Rounding
+
+    return c ? -y : y;
+}
+```
