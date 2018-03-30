@@ -115,6 +115,13 @@ We can now try and maximize each multiplication, working from the inner-most mul
 The only remaining task is to convert the above equation into C code. Some tricks are done to determine the sign of the output, as well as to keep the input range from {% katex %}[0,2^{13}]{% endkatex %}, but otherwise everything is pretty straightforward.
 
 ```c
+/*
+Implements the 5-order polynomial approximation to sin(x).
+@param i   angle (with 2^15 units/circle)
+@return    16 bit fixed point Sine value (4.12) (ie: +4096 = +1 & -4096 = -1)
+
+The result is accurate to within +- 1 count. ie: +/-2.44e-4.
+*/
 int16_t fpsin(int16_t i)
 {
     /* Convert (signed) input to a value between 0 and 8192. (8192 is pi/2, which is the region of the curve fit). */
@@ -144,4 +151,7 @@ int16_t fpsin(int16_t i)
 
     return c ? -y : y;
 }
+
+//Cos(x) = sin(x + pi/2)
+#define fpcos(i) fpsin((int16_t)(((uint16_t)(i)) + 8192U))
 ```
