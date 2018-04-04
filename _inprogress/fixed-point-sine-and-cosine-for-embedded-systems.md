@@ -29,20 +29,9 @@ In general, the input to the sine function can be positive or negative. It can b
 
 Whole angles (in degrees) range from {% katex %}0-360{% endkatex %}. An 8-bit integer could at most represent 256 unique values, which is a coarser resolution than a degree, and probably unsuitable for all but the roughest of approximations. The next logical step up is supporting 16-bit inputs.
 
-Signed (two's complement) 16-bit numbers can take values in the range {% katex %}[-32768, 32767]{% endkatex %}. Signed values are nice because angles are quite often represented as positive or negative in many contexts. Unsigned values, on the other hand, would allow us to maximize the bitwise precision of all of our integer multiplications without having to compromise any bits for representing the sign. 
+Signed (two's complement) 16-bit numbers can take values in the range {% katex %}[-32768, 32767]{% endkatex %}. Signed values are nice because angles are quite often represented as positive or negative in many contexts. Unsigned values, on the other hand, would allow us to maximize the bitwise precision of all of our integer multiplications without having to compromise any bits for representing the sign. We will keep these factors in mind while deriving our approximation.
 
-Fortunately, the periodicity of the sine function allows us to have our cake and eat it too. If we strategically choose a value of +32768 to be exactly equal to {% katex %}2\pi{% endkatex %}, then we can write a function with a signature of `int fpsin(int16_t x)` and internally cast the signed value `x` to be unsigned:
-
-```c
-fpsin(-32768) = fpsin((uint16_t)-32768) = fpsin(32768)
-```
-Since we've strategically chosen 32768 to be equal to {% katex %}2\pi{% endkatex %}, `fpsin(-32768) = fpsin(32768)` = {% katex %}\sin(2\pi) = sin(0) = 0{% endkatex %}. Similarly, `fpsin(-1) = fpsin(65535)` = {% katex %}\sin(4\pi - \frac{\pi}{16384}) = \sin(-\frac{\pi}{16384}){% endkatex %} = `fpsin(-1)`.
-
-In essence, by matching the periodicity of the sine function to both the overflow behavior of unsigned 16-bit integers [`65535+1 = 0`] as well the two's complement representation of signed numbers [`(uint16_t)-32768 = +32768`], we can cast the input value to be unsigned without any loss of information.
-
-The end result is that we'd have chose the fixed-point representation of our input angle to be 32768 units/circle.
-
-## The approximation
+## The Approximation
 
 According to the derivation in [Another fast fixed-point sine approximation](http://www.coranac.com/2009/07/sines/), the {% katex %}5^\text{th}{% endkatex %} order polynomial that minimizes the root-mean-squared approximation error over the region {% katex %}x \in [0, \frac{\pi}{2}]{% endkatex %} or {% katex %}z = \frac{x}{\frac{\pi}{2}} = \frac{2x}{\pi} \in [0, 1]{% endkatex %} is:
 
@@ -54,8 +43,30 @@ b_5 &= 2 a_5 - \frac{5}{2}, \\
 c_5 &= a_5 - \frac{3}{2}
 \end{aligned}
 {% endkatex %}
+## The Errors
 
-The only tricky part is to write this equation in terms of integer multiplications. My intended target is (mostly) portable C code. As a result, I will write my multiplications such that the multiplicand, multiplier, and product are all of the same type (uint32_t). This is a strange way to write multiplications, and really only makes "sense" in C. Further optimizations specialized to your MAC HW (if you have one) are probably worth while if speed is required. Since we want a fixed-point value as an output, we multiply the actual value by a fixed-point multiplier {% katex %}2^a{% endkatex %}.
+The {% katex %}5^\text{th}{% endkatex %} order approximation given above has a maximum error of approximately 1.9e-4. Therefore, if we choose our fixed-point output to have 12 fixed-point bits, corresponding with a resolution of 2.4e-4, we could expect to contain the approximation error to the least significant digit.
+
+In other words, our fixed-point approximation is simply the above result multiplied by {% katex %}2^{12}{% endkatex %} (our fixed-point multiplier).
+
+Now, since we've chosen an output resolution, it makes sense to once again consider our domain. If our output resolution is 1/4096 (2.4e-4), and we are quantizing our input domain to be a fixed-point number as well, it makes sense that we would want to choose an input quantization such that the resulting error is strictly less than our output resolution.
+
+If we consider the sine function, it has it's steepest slope in the region around {% katex %}x=0{% endkatex %}. Similarly, our polynomial approximation also has it's steepest slope at {% katex %}x=0{% endkatex %}. To limit the error caused by input quantization, this is the region that we want to consider.
+
+Recall that for small values, {% katex %}\sin(z) \approx z{% endkatex %}. However, for our polynomial approximation this simplifies to {% katex %}a_5 z{% endkatex %}. If we consider the error term {% katex %}e(z) = 4096 \big( a_5 z - z\big){% endkatex %}:
+
+| {% katex %}z{% endkatex %} | {% katex %}e(z) = 4096 \big( a_5 z - z\big){% endkatex %}|
+| --- | --- |
+| {% katex %}2^{-14}{% endkatex %} | 0.142 |
+| {% katex %}2^{-13}{% endkatex %} | 0.285 |
+| {% katex %}2^{-12}{% endkatex %} | 0.570 |
+| {% katex %}2^{-11}{% endkatex %} | 1.140 |
+
+Since we want to limit our error to the least significant digit, we should consider quantizing the input to be at least 13 fixed-point bits.
+
+## Quantization
+
+The only remaining tricky part is to write this equation in terms of integer multiplications. My intended target is (mostly) portable C code. As a result, I will write my multiplications such that the multiplicand, multiplier, and product are all of the same type (uint32_t). This is a strange way to write multiplications, and really only makes "sense" in C. Further optimizations specialized to your MAC HW (if you have one) are probably worth while if speed is required. Since we want a fixed-point value as an output, we multiply the actual value by a fixed-point multiplier {% katex %}2^a = 2^{12}{% endkatex %}.
 
 {% katex display %}
 \begin{aligned}
@@ -94,11 +105,12 @@ After scaling, we can re-define the constants: {% katex %}A_1 = 2^{q}a_5 {% endk
 
 *Note*: All but the innermost multiplication by {% katex %}y{% endkatex %} has been preceded by a multiplication by {% katex %}2^{-n}{% endkatex %}. Since the largest value of {% katex %}y{% endkatex %} is {% katex %}2^n{% endkatex %}, we know {% katex %}y 2^{-n} x \le x{% endkatex %} (where {% katex %}x{% endkatex %} is any number).
 
-We can now try and maximize each multiplication, working from the inner-most multiplication outward, such that each product (assuming {% katex %}y{% endkatex %} is {% katex %}2^n = 2^{13}{% endkatex %}) is exactly 32 bits. We also scale the fixed-point result to be as large as possible while introducing error only in the least significant bit. The end result is:
+We can now try and maximize each multiplication, working from the inner-most multiplication outward, such that each product is exactly 32 bits. We also scale the fixed-point result to be as large as possible while introducing error only in the least significant bit. The end result is:
 
 {% katex display %}
 \begin{aligned}
   a &= 12 \\
+  n &= 13 \\
   p &= 32 \\
   q &= 31 \\
   r &= 3 \\
@@ -111,7 +123,7 @@ We can now try and maximize each multiplication, working from the inner-most mul
 
 ## Code
 
-The only remaining task is to convert the above equation into C code. Some tricks are done to determine the sign of the output, as well as to keep the input range from {% katex %}[0,2^{13}]{% endkatex %}, but otherwise everything is pretty straightforward.
+The only remaining task is to convert the above equation into C code. Some tricks are done to determine the sign of the output, as well as to keep the input range from {% katex %}[0,2^{13}]{% endkatex %} and utilize unsigned multiplication wherever possible, but otherwise everything is pretty straightforward.
 
 ```c
 /*
