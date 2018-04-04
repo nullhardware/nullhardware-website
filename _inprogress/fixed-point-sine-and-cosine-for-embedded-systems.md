@@ -25,7 +25,7 @@ Since this is a 5th order approximation, I will restrict the derivation discussi
 
 The domain of {% katex %}\sin(x){% endkatex %} is infinite. However, it only provides unique (positive) values within the range {% katex %}x \in [0, \frac{\pi}{2}]{% endkatex %}. All the other outputs can be calculated based on the values within this range and the symmetry of the sine function.
 
-In general, the input to the sine function can be positive or negative. It can be fractional, or it can even be irrational. However, a fixed-point sine should (probably) accept a fixed-point angle as an input. There are many possible choices for the exact mapping to choose, but I will outline a convenient one below.
+In general, the input to the sine function can be positive or negative. It can be fractional, or it can even be irrational. However, a fixed-point sine should (probably) accept a fixed-point angle as an input.
 
 Whole angles (in degrees) range from {% katex %}0-360{% endkatex %}. An 8-bit integer could at most represent 256 unique values, which is a coarser resolution than a degree, and probably unsuitable for all but the roughest of approximations. The next logical step up is supporting 16-bit inputs.
 
@@ -74,7 +74,7 @@ fpsin_5(x) &=\bigg( a_5 z - b_5 z^3 + c_5 z^5 \bigg) 2^a
 \end{aligned}
 {% endkatex %}
 
-Because {% katex %}2\pi = 32768{% endkatex %}, we know {% katex %}\frac{\pi}{2} = 8192 = 2^n{% endkatex %} where {% katex %}n = 13{% endkatex %}. Therefore, we can write {% katex %}z{% endkatex %} as {% katex %}\frac{y}{2^n}{% endkatex %}.
+Because {% katex %}z \in [0, 1]{% endkatex %}, we can write {% katex %}z{% endkatex %} as {% katex %}\frac{y}{2^n}{% endkatex %} where {% katex %}y \in [0,2^n]{% endkatex %}.
 
 {% katex display %}
 \begin{aligned}
