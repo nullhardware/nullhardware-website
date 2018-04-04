@@ -361,6 +361,15 @@ table {
 	}
 }
 
+/* scale formulas
+ * ----------------------------------------------------------- */
+@media (max-width: 768px )
+{
+	.katex-display {
+		font-size: 50%;
+	}
+}
+
 /* code highlighting
  * ----------------------------------------------------------- */
  @import 'github'
