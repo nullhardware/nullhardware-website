@@ -58,11 +58,10 @@ As a math teacher, I have to explain how parameters affect the graph of a functi
     \foreach \x in {1}
     {
     	\pgfmathparse{\x * 3.141596 * 2} \pgfmathresult \let\normx\pgfmathresult% evaluate maxY 
-        \draw ( \normx cm,-3pt) -- (\normx cm,3pt)
-            node[anchor=south,xshift=-0.35cm] {$+32768$};
+        \draw ( \normx cm,-3pt) -- (\normx cm,3pt);
     }
     \foreach \y/\ytext in {1}
-        \draw (1pt,\y cm) -- (-3pt,\y cm) node[anchor=east] {$\ytext$};
+        \draw (3pt,\y cm) -- (-3pt,\y cm) node[anchor=east] {$\ytext$};
 \end{tikzpicture}
 }
 % END of macro

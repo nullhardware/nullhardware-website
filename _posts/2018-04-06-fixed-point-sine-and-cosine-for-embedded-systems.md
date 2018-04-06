@@ -2,30 +2,31 @@
 title: Fixed-Point Sine (and Cosine) for Embedded Systems
 headline: 5th Order Polynomial Fixed-Point Sine Approximation
 description: >-
-  I derive a simple fixed-point approximation to sin (and cos) appropriate for
-  embedded systems without dedicated floating-point hardware accurate to within
-  0.01% Full-Scale. Presented as dependency-free C code without a lookup-table.
-date: 2018-03-28T02:51:18.098Z
+  I derive a simple fixed-point approximation to sin (and cos) appropriate for embedded systems without dedicated floating-point hardware. The implementation is accurate to within 0.01% of Full-Scale and is presented as dependency-free C code (without a lookup-table).
 author: andrew
-draft_img: /img/drafts/sin_graph.png
-tags:
-  - math
+image:
+  path: /img/generic/sin-wave-000000.png
+  width: 2048
+  height: 1024
+  thumb: /img/generic/sin-wave-000000.thumb.png
+  alt: Graph of the Sine (sin) function, which is approximated using an integer based 5th order polynomial.
+tags: [math, code]
 ---
-I derive and present a simple fixed-point approximation to sin (and cos) appropriate for embedded systems without dedicated floating-point hardware. It is accurate to within ±1/4096 (0.01% Full-Scale). No lookup-table is required, and portable C code is available.
+Here is a simple fixed-point approximation to sin (and cos) appropriate for embedded systems without dedicated floating-point hardware. It is accurate to within ±1/4096 (0.01% Full-Scale). No lookup-table is required, and portable C code is available.
 
 ## Background
 
-I originally derived this implementation with an MSP430 in mind. This particular chip has a full integer 32x32 HW MAC, completing most integer multiplications within a couple of cycles. I wanted to avoid the vendor-supplied floating point routines mostly because I had no need for floating point precision. If performance is required, this general approach could be optimized for your particular hardware.
+> I originally derived this implementation with a MSP430 in mind. With a full integer 32x32 HW MAC, but no floating point unit, fixed-point routines made the most sense for the math. If performance is required, this general approach could be optimized for your particular hardware.
 
-This post is inspired (and a derivative of) the excellent [Another fast fixed-point sine approximation](http://www.coranac.com/2009/07/sines/). Although excellent, I ended up requiring the full 5th order approximation to meet my design specifications.
+This post is inspired by, and a derivative of, the excellent [Another fast fixed-point sine approximation](http://www.coranac.com/2009/07/sines/). However, that page neglects the complete derivation of the 5<sup>th</sup> order implementation, so I was forced to derive my own.
 
-Since this is a 5th order approximation, I will restrict the derivation discussion to {% katex %}\sin(x){% endkatex %} (which is odd). The cosine can be calculated from the sine with a simple phase shift (see example code).
+As a 5<sup>th</sup> order approximation, I will restrict the derivation discussion to {% katex %}\sin(x){% endkatex %} (which is odd). The cosine can be calculated from the sine with a simple phase shift (see example code).
 
 ## Domain
 
 The domain of {% katex %}\sin(x){% endkatex %} is infinite. However, it only provides unique (positive) values within the range {% katex %}x \in [0, \frac{\pi}{2}]{% endkatex %}. All the other outputs can be calculated based on the values within this range and the symmetry of the sine function.
 
-In general, the input to the sine function can be positive or negative. It can be fractional, or it can even be irrational. However, a fixed-point sine should (probably) accept a fixed-point angle as an input.
+In general, the input to the sine function can be positive, negative, fractional, or even irrational. However, a fixed-point sine function should (most likely) accept a fixed-point angle as an input.
 
 Whole angles (in degrees) range from {% katex %}0-360{% endkatex %}. An 8-bit integer could at most represent 256 unique values, which is a coarser resolution than a degree, and probably unsuitable for all but the roughest of approximations. The next logical step up is supporting 16-bit inputs.
 
@@ -33,7 +34,7 @@ Signed (two's complement) 16-bit numbers can take values in the range {% katex %
 
 ## The Approximation
 
-According to the derivation in [Another fast fixed-point sine approximation](http://www.coranac.com/2009/07/sines/), the {% katex %}5^\text{th}{% endkatex %} order polynomial that minimizes the root-mean-squared approximation error over the region {% katex %}x \in [0, \frac{\pi}{2}]{% endkatex %} or {% katex %}z = \frac{x}{\frac{\pi}{2}} = \frac{2x}{\pi} \in [0, 1]{% endkatex %} is:
+According to the [source material](http://www.coranac.com/2009/07/sines/), the 5<sup>th</sup> order polynomial that minimizes the root-mean-squared approximation error over the region {% katex %}x \in [0, \frac{\pi}{2}]{% endkatex %} or {% katex %}z = {x}/{\frac{\pi}{2}} = {2x}/{\pi} \in [0, 1]{% endkatex %} is:
 
 {% katex display %}
 \begin{aligned}
@@ -43,30 +44,31 @@ b_5 &= 2 a_5 - \frac{5}{2}, \\
 c_5 &= a_5 - \frac{3}{2}
 \end{aligned}
 {% endkatex %}
+
 ## The Errors
 
-The {% katex %}5^\text{th}{% endkatex %} order approximation given above has a maximum error of approximately 1.9e-4. Therefore, if we choose our fixed-point output to have 12 fixed-point bits, corresponding with a resolution of 2.4e-4, we could expect to contain the approximation error to the least significant digit.
+The 5<sup>th</sup> order approximation given above has a maximum error of approximately 1.9e-4. Therefore, if we choose our fixed-point output to have 12 fixed-point bits (corresponding with a resolution of 2.4e-4), we could expect to contain the approximation error to the least significant digit.
 
-In other words, our fixed-point approximation is simply the above result multiplied by {% katex %}2^{12}{% endkatex %} (our fixed-point multiplier).
+*In other words, our fixed-point approximation is simply the above result multiplied by the fixed-point multiplier {% katex %}2^{12} = 2^{a}{% endkatex %}.*
 
-Now, since we've chosen an output resolution, it makes sense to once again consider our domain. If our output resolution is 1/4096 (2.4e-4), and we are quantizing our input domain to be a fixed-point number as well, it makes sense that we would want to choose an input quantization such that the resulting error is strictly less than our output resolution.
+Now we must reconsider our input domain. If our output resolution is {% katex %}{1}/{4096}{% endkatex %}(2.4e-4), it follows that we should choose an input quantization that restricts the errors arising from quantization to be strictly less than the output resolution.
 
-If we consider the sine function, it has it's steepest slope in the region around {% katex %}x=0{% endkatex %}. Similarly, our polynomial approximation also has it's steepest slope at {% katex %}x=0{% endkatex %}. To limit the error caused by input quantization, this is the region that we want to consider.
+The slope of the sine function is steepest in the region around {% katex %}x=0{% endkatex %}. Similarly, the slope of our polynomial approximation is also  steepest at {% katex %}x=0{% endkatex %}. If we want to limit the error caused by input quantization, this is the region that we want to consider.
 
-Recall that for small values, {% katex %}\sin(z) \approx z{% endkatex %}. However, for our polynomial approximation this simplifies to {% katex %}a_5 z{% endkatex %}. If we consider the error term {% katex %}e(z) = 4096 \big( a_5 z - z\big){% endkatex %}:
+For small values near {% katex %}0{% endkatex %}, {% katex %}\sin(z) \approx z{% endkatex %}. However, this is **not** true for our polynomial approximation, which is approximately {% katex %}a_5 z{% endkatex %}. Consider the approximate error term {% katex %}e(z) = 4096 \big( a_5 z - z\big){% endkatex %}:
 
-| {% katex %}z{% endkatex %} | {% katex %}e(z) = 4096 \big( a_5 z - z\big){% endkatex %}|
+| {% katex %}z{% endkatex %} | {% katex %}e(z){% endkatex %}|
 | --- | --- |
 | {% katex %}2^{-14}{% endkatex %} | 0.142 |
 | {% katex %}2^{-13}{% endkatex %} | 0.285 |
 | {% katex %}2^{-12}{% endkatex %} | 0.570 |
 | {% katex %}2^{-11}{% endkatex %} | 1.140 |
 
-Since we want to limit our error to the least significant digit, we should consider quantizing the input to be at least 13 fixed-point bits.
+If we want to limit our error to the least significant digit with our chosen fixed-point multiplier, we should consider quantizing the input to be **at least** 13 fixed-point bits.
 
 ## Quantization
 
-The only remaining tricky part is to write this equation in terms of integer multiplications. My intended target is (mostly) portable C code. As a result, I will write my multiplications such that the multiplicand, multiplier, and product are all of the same type (uint32_t). This is a strange way to write multiplications, and really only makes "sense" in C. Further optimizations specialized to your MAC HW (if you have one) are probably worth while if speed is required. Since we want a fixed-point value as an output, we multiply the actual value by a fixed-point multiplier {% katex %}2^a = 2^{12}{% endkatex %}.
+Now we must rewrite this equation in terms of only integer multiplications and simple bit shifts. My intended target is C code, so I will write my multiplications such that the multiplicand, multiplier, and product are all of the same type (`uint32_t`). This is a strange way to write multiplications, and it does not optimize for the register level timing or complete resolution capability of HW MACs. Further optimizations specialized to your hardware are probably worth while if speed is required.
 
 {% katex display %}
 \begin{aligned}
@@ -74,7 +76,7 @@ fpsin_5(x) &=\bigg( a_5 z - b_5 z^3 + c_5 z^5 \bigg) 2^a
 \end{aligned}
 {% endkatex %}
 
-Because {% katex %}z \in [0, 1]{% endkatex %}, we can write {% katex %}z{% endkatex %} as {% katex %}\frac{y}{2^n}{% endkatex %} where {% katex %}y \in [0,2^n]{% endkatex %}.
+Because {% katex %}z \in [0, 1]{% endkatex %}, we can write {% katex %}z{% endkatex %} as {% katex %}{y}/{2^n}{% endkatex %} where {% katex %}y \in [0,2^n]{% endkatex %}.
 
 {% katex display %}
 \begin{aligned}
@@ -123,7 +125,7 @@ We can now try and maximize each multiplication, working from the inner-most mul
 
 ## Code
 
-The only remaining task is to convert the above equation into C code. Some tricks are done to determine the sign of the output, as well as to keep the input range from {% katex %}[0,2^{13}]{% endkatex %} and utilize unsigned multiplication wherever possible, but otherwise everything is pretty straightforward.
+With the hard part done, it is a relatively simple matter to write the above equation as C code. Some tricks are used to pre-determine the sign of the output and then use unsigned multiplication throughout, but otherwise everything is pretty straightforward.
 
 ```c
 /*
