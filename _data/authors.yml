@@ -3,7 +3,7 @@ andrew:
   type: editor
   description: |
     Hacker, Photographer, Curler, & Dad in [#YEG](https://twitter.com/search?q=%23yeg). I'm a **true** Full-Stack developer 
-    comfortable with everything from PCB design to Firmware Development, PHY design and verification, REST APIs, and HTML/JS. In my spare time I [fabricate keyfobs](https://www.fobricator.ca).
+    comfortable with everything from PCB design to Firmware Development, PHY design and verification, REST APIs, and HTML/JS.
 
     **Email**: andrew@nullhardware.com **Home**: [andrewsteadman.ca](https://www.andrewsteadman.ca).
   home: "https://www.andrewsteadman.com"
@@ -31,7 +31,7 @@ marcin:
   description: |
     I've had a soldering iron in my hand since before I had a drivers license, and have the burns to prove it.
     Embedded Systems Engineer by day, and embedded hacker by night, specializing in hardware and firmware integration.
-    I play with software defined radio's, [copy RFID fobs](https://www.fobricator.com), and try to break embedded devices as a hobby.
+    I play with software defined radio's, copy RFID fobs, and try to break embedded devices as a hobby.
 
     **Email**: marcin@nullhardware.com
   image: /img/authors/marcin.jpg

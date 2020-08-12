@@ -1,14 +1,15 @@
 {
-	"folders":
-	[
+	"folders": [
 		{
 			"path": ".",
-			"folder_exclude_patterns": ["_site",".gitignore"],
-      "follow_symlinks": true
+			"folder_exclude_patterns": [
+				"_site",
+				".gitignore"
+			],
+			"follow_symlinks": true
 		}
 	],
-    "settings":
-    {
-        "tab_size": 2
-    }
+	"settings": {
+		"tab_size": 2
+	}
 }

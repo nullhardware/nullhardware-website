@@ -17,7 +17,6 @@
             {% assign cimg = cimg | prepend: post.url | prepend: site.baseurl %}
           {% endif %}
         {% endif %}
-        <br class="hidden-xs">
         <div class="block-4x3">
           <a class="post-link" href="{{ post.url | prepend: site.baseurl }}" {% if post.headline %} title="{{post.headline}}" {% endif %} >
           <img class="block-fill" src="{{cimg}}" {% if post.image.alt %} alt="{{post.image.alt}}" {% endif %} />
