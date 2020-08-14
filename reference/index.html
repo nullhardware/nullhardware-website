@@ -9,19 +9,21 @@ description: The "Awesome List" of all our electronics/circuits/coding tutorials
 
 <h2>What we know:</h2>
 
-{% assign numref = site.reference | size %}
+{% assign refindex = site.reference | where: "hide_index", false %}
+
+{% assign numref = refindex | size %}
 {% if numref  == 0 %}
   <p><em>oops... Nothing Yet.</em></p>
 {% endif %}
 
-{% capture refs %}{% for ref in site.reference %}{% assign reffile = ref.path | split: "/" | last | prepend: "/" %}{{ref.path | replace_first: reffile,""}}${{forloop.index0}}{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
+{% capture refs %}{% for ref in refindex %}{% assign reffile = ref.path | split: "/" | last | prepend: "/" %}{{ref.path | replace_first: reffile,""}}${{forloop.index0}}{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
 {% assign refs = refs | split: "," | sort %}
 
 <ul>
 {% assign ctopic = "" %}
 {% for ref in refs %}
   {% assign pgid = ref | split: "$" | last | plus: 0 %}
-  {% assign pg = site.reference[pgid] %}
+  {% assign pg = refindex[pgid] %}
   {% assign pgfile = pg.path | split: "/" | last | prepend: "/" %}
   {% assign pgtopic = pg.path | replace_first: "_reference/","" | replace_first: pgfile,"" %}
   {% unless pgtopic == ctopic %}
@@ -34,7 +36,7 @@ description: The "Awesome List" of all our electronics/circuits/coding tutorials
 {% assign ctopic = "" %}
 {% for ref in refs %}
   {% assign pgid = ref | split: "$" | last | plus: 0 %}
-  {% assign pg = site.reference[pgid] %}
+  {% assign pg = refindex[pgid] %}
   {% assign pgfile = pg.path | split: "/" | last | prepend: "/" %}
   {% assign pgtopic = pg.path | replace_first: "_reference/","" | replace_first: pgfile,"" %}
   {% unless pgtopic == ctopic %}

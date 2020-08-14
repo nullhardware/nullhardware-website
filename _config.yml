@@ -71,6 +71,12 @@ defaults:
       type: "projects"
     values:
       layout: "project"
+  -
+    scope:
+      path: ""
+      type: "reference"
+    values:
+      hide_index: false
 
 # Build settings
 markdown: kramdown

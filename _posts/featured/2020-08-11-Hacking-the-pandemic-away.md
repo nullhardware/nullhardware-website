@@ -9,7 +9,7 @@ image:
   width: 2048
   height: 1024
   thumb: /img/generic/hacker-pandemic-00000.thumb.png
-  alt: Graph of the Sine (sin) function, which is approximated using an integer based 5th order polynomial.
+  alt: Hacker wearing a mask
 cta:
   title: PicoCTF 2018 Reference Guide
   cta: "> Get Started"
@@ -21,9 +21,9 @@ cta:
     center: '60% 55%'
 tags: [hacking]
 ---
-I've spent the last couple of months of pandemic lockdown hacking my way through the [PicoCTF 2018](https://2018game.picoctf.com/) capture the flag challenges - and I'm sharing what I've learned. Every single Binary Exploitation challenge has been cracked, including the ones requiring heap exploits. Can you figure out how I did it?
+I've spent the last couple of months of the pandemic lockdown hacking my way through the [PicoCTF 2018](https://2018game.picoctf.com/) capture the flag challenges - and I'm sharing what I've learned. Every single Binary Exploitation challenge has been cracked, including the ones requiring heap exploits. Can you figure out how I did it?
 
-**TLDR**: Jump straight to our [PicoCTF BinExp Guide](/reference/Hacking-101/PicoCTF-2018-Binary-Exploits/).
+**TLDR**: Jump straight to our [PicoCTF 2018 BinExp Guide]({% link _reference/Hacking-101/PicoCTF-2018-Binary-Exploits.md %}).
 
 ## Background
 
@@ -41,10 +41,10 @@ These challenges are fun, force you to think outside of the box, and teach you a
 
 ## Writeups
 
-As a resource for others, I'm starting to document everything I've learned under the ["Hacking-101"](/reference/#hacking-101) section of our general [Reference](/reference/) page.
+As a resource for others, I'm starting to document everything I've learned under the ["Hacking-101"]({% link reference/index.html %}#hacking-101) section of our general [Reference]({% link reference/index.html %}) page.
 
-[Click Here](/reference/Hacking-101/PicoCTF-2018-Binary-Exploits/) for access to the complete rundown of the Binary Exploitation challenges from PicoCTF 2018. There are 20 challenges in total, and over the next couple weeks I'll be writing something about each of them.
+[Click Here]({% link _reference/Hacking-101/PicoCTF-2018-Binary-Exploits.md %}) for access to the complete rundown of the Binary Exploitation challenges from PicoCTF 2018. There are 20 challenges in total, and over the next couple weeks I'll be writing something about each of them.
 
-To really learn something, you should register for PicoCTF 2018 and attempt them by yourself. But, for those looking for inspiration or who are stuck on a problem, our reference guide will teach you how you can approach the problems without spoiling everything.
+To really learn something, you should [register](https://2018game.picoctf.com/) for PicoCTF 2018 and attempt them by yourself. But, for those looking for inspiration or who are stuck on a problem, our reference guide will teach you how you can approach the problems without spoiling everything.
 
 {% include cta/button.html cta=page.cta %}
