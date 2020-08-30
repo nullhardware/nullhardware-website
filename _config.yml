@@ -93,6 +93,9 @@ plugins:
   - jekyll-paginate
   #- jekyll-postfiles
 
+include:
+  - "_redirects"
+
 exclude:
   - "*.sublime-*"
   - "Gemfile*"
