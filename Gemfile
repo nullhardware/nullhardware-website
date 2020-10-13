@@ -7,4 +7,5 @@ group :jekyll_plugins do
     gem 'jekyll-postfiles'
     gem 'jekyll-paginate'
     gem 'jekyll-katex'
+    gem 'jekyll-sitemap'
 end
