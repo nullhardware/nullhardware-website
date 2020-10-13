@@ -378,6 +378,15 @@ table {
 	font-family: Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
 }
 
+/* panel collapse
+ * ----------------------------------------------------------- */ 
+ a[aria-expanded=true] .glyphicon-menu-left {
+	display: none;
+ }
+ a[aria-expanded=false] .glyphicon-menu-down {
+	display: none;
+ }
+
 /* code highlighting
  * ----------------------------------------------------------- */
  @import 'github'
