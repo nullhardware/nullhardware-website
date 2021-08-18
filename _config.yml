@@ -78,6 +78,11 @@ defaults:
       type: "reference"
     values:
       hide_index: false
+  -
+    scope:
+      path: "admin"
+    values:
+      sitemap: false
 
 # Build settings
 markdown: kramdown
