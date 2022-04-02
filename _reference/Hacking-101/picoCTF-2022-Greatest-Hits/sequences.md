@@ -234,7 +234,9 @@ L=Matrix([[1,0,0,0]])*P # pre-multiply by [1,0,0,0]
 R=Pi*Matrix([[1],[2],[3],[4]]) #post-multiply by [1;2;3;4]
 f=1/gcd(tuple(R)) # pull out the gcd
 R=f*R
-print(f"M**n = {L} * {D}**n * {R} / {f}")
+print(f"f(n) = {L} * {D}**n * {R} // {f}")
+n=symbols("n")
+print(f"f(n) = ({(L*D**n*R)[0]}) // {f}")
 ```
 
 Which, when run, results in the following output:
@@ -243,11 +245,12 @@ Which, when run, results in the following output:
 M = Matrix([[0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1], [55692, -9549, 301, 21]])
 P*D*P^-1 = Matrix([[0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1], [55692, -9549, 301, 21]])
 
-M**n = Matrix([[-1, 1, 1, 1]]) * Matrix([[-21, 0, 0, 0], [0, 12, 0, 0], [0, 0, 13, 0], [0, 0, 0, 17]])**n * Matrix([[-1612], [981920], [-1082829], [141933]]) / 42636
+f(n) = Matrix([[-1, 1, 1, 1]]) * Matrix([[-21, 0, 0, 0], [0, 12, 0, 0], [0, 0, 13, 0], [0, 0, 0, 17]])**n * Matrix([[-1612], [981920], [-1082829], [141933]]) // 42636
+f(n) = (1612*(-21)**n + 981920*12**n - 1082829*13**n + 141933*17**n) // 42636
 ```
 {:.contains-term}
 
-Looking at that result, we can recognize that the diagonal matrix structure means that the corresponding terms on the left and right vectors can only influence their respective diagonal term. You can therefore directly write the result as:
+Which means our function can be written as:
 
 {% katex display %}
 \begin{aligned}
