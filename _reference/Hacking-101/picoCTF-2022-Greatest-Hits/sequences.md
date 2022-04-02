@@ -306,7 +306,7 @@ That sounds perfect. Let's see if it helps:
 ```
 {:.contains-term}
 
-**Boom** - that was quick! Just swap it out for `m_func` for our new function and grab your flag.
+**Boom** - that was quick! Just swap out `m_func` for our new function and grab your flag.
 
 ```python
 ITERS = int(2e7)
