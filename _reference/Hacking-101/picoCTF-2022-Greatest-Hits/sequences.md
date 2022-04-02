@@ -1,6 +1,6 @@
 ---
-title:  picoCTF 2022 - Sequences
-description: Optimize a slow recursive function so that it's fast (and doesn't blow up).
+title:  picoCTF 2022 - crypto - Sequences (400 points)
+description: Optimize a slow recursive function so that it's fast (and doesn't blow up) through the power of linear algebra!
 hide_index: true
 image:
   path: /img/reference/pico-ctf-2022-00000.png
