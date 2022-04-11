@@ -42,3 +42,14 @@ RecursionError: maximum recursion depth exceeded in comparison
 > Solving crypto problems through the power of linear algebra!  
 > [> Read More]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/sequences.md %})
 {:.contains-term}
+
+### 2. [Solfire]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire.md %}) (**Binary Exploitation** - *500 Points*)
+
+>
+```
+$ file solfire.so
+solfire.so: ELF 64-bit LSB shared object, eBPF, version 1 (SYSV), dynamically linked, not stripped
+```
+> Our three-part series covers reversing and exploiting a Solana smart-contract to steal over 50,000 lamports. This challenge had less than 10 solves during the picoCTF 2022 competition.  
+> [> Read More]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire.md %})
+{:.contains-term}
