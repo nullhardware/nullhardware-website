@@ -18,7 +18,7 @@ This is the second part of a *three part series*. In Part II, we will cover sett
 
 I. [Part I - Reversing the Binary]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire.md %})  
 II. [Part II - Environment Setup]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire/part-2.md %}) (you are here)  
-III. Part III - Exploitation (*coming soon*)
+III. [Part III - Exploitation]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire/part-3.md %})
 
 ## The Problem
 
@@ -45,6 +45,7 @@ Let's modify the Dockerfile like so:
 ```
 
 Let's also create a copy of main.rs inside of a directory named `newsrc` and apply the following edits:
+
 ```diff
 --- src/main.rs 2022-03-12 14:55:51.000000000 -0700
 +++ newsrc/main.rs      2022-04-12 06:00:00.000000000 -0600
@@ -86,20 +87,20 @@ Let's also create a copy of main.rs inside of a directory named `newsrc` and app
      writeln!(socket, "vault bal: {:?}", env.get_account(vault).unwrap().lamports)?;
 ```
 
-What the heck do these edits do? Well, the first one will add some extra steps to the Dockerfile right after everything has been built once. The great thing about doing it this way is that we will leverage docker's build cache, so that we replace the `main.rs` file only *after* it's already built everything, meaning docker can re-use it's existing cache of everything up until that step. We then force cargo to rebuild again, which is pretty fast since the only thing that has changed is one file.
+What the heck do these edits do? Well, the first one will add some extra steps to the Dockerfile right after everything has been built once. The great thing about doing it this way is that we will leverage docker's build cache, so that we replace the `main.rs` file only *after* it's already built everything, meaning docker can re-use it's existing cache of everything up until that step. We then force cargo to rebuild the code again, which is pretty fast since only one file has changed.
 
 What edits did we make to `main.rs`? Nothing major, we just followed the hints suggested on the [poc_framework](https://github.com/neodyme-labs/solana-poc-framework) github - turn on logging with a loglevel of `DEBUG`, and modify the transactions to call `.print()` after executing. We also set `RUST_BACKTRACE=full` inside the docker container, which may produce more meaningful callstacks in some cases.
 
 ## Helloworld
 
-What next? Well, somehow we need to deploy our own smart-contract. To do that, we need to figure out how to use the Solana toolchain.
+**What next? Well, somehow we need to deploy our own smart-contract.** To do that, we need to figure out how to use the Solana toolchain to build one.
 
-Since Rust isn't something we're very familiar with, we're going to use the C sdk. Unfortunately, I found the [official documentation](https://docs.solana.com/developing/on-chain-programs/developing-c) to be somewhat lacking. There are an additional 2 critical pieces of information needed:
+Since Rust isn't something we're very familiar with, we're going to use the C sdk. Unfortunately, I found the [official documentation](https://docs.solana.com/developing/on-chain-programs/developing-c) to be somewhat lacking. Here are 2 additional pieces of information that I found helpful:
 
-1. Your project structure has to be exactly `/src/<name>/<name>.c`. This is actually how their github is setup, but because of the way github merges `src/<name>` as one, it's not necessarily obvious if you were just trying to re-create it by hand.
-2. The instructions do not cover an extra mandatory step: you must cd into `~/.local/share/solana/install/active_release/bin/sdk/bpf/` and run `env.sh` in order to install all the required development tools.
+1. Your project structure has to exactly match `/src/<name>/<name>.c`. This *is* how their github is setup, but because of the way github merges `src/<name>` visual as one directory, it's not necessarily obvious if you are trying to re-create it by hand.
+2. The instructions do not cover an extra mandatory step: you must cd into `~/.local/share/solana/install/active_release/bin/sdk/bpf/` and run `env.sh` in order to install *all* the required development tools. *The Makefile was inconsistent at doing this automatically for me, and we want it done at docker build time anyway.*
 
-Here's a Dockerfile to get you a working Solana C development environment:
+Here's a Dockerfile for a working Solana C development environment:
 
 ```Dockerfile
 FROM ubuntu
@@ -121,7 +122,7 @@ ENV PATH="/root/.local/share/solana/install/active_release/bin:$PATH"
 # docker run --rm -it -v $PWD:/work solana-dev make
 ```
 
-Here's a Makefile to put in that directory:
+Here's a Makefile to put into that directory:
 
 ```Makefile
 OUT_DIR := ./dist
@@ -157,7 +158,12 @@ extern uint64_t entrypoint(const uint8_t *input) {
 }
 ```
 
-If you want, you can download all of those together in this file: [helloworld.tgz]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire/helloworld.tgz %}).
+---
+
+**If you want, you can download all three of these files together here: [helloworld.tgz]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire/helloworld.tgz %}).**
+{:.alert .alert-success}
+
+---
 
 To use simply build the image once:
 
@@ -181,7 +187,7 @@ Use 'docker scan' to run Snyk tests against images to find vulnerabilities and l
 ```
 {:.contains-term}
 
-and then use the image and `make` the projects in the current directory every time you want to recompile:
+and then use the image and run `make` to compile the projects in the current directory:
 
 ```
 $ docker run --rm -it -v $PWD:/work solana-dev make
@@ -193,7 +199,7 @@ $ solana program deploy /work/dist/helloworld.so
 ```
 {:.contains-term}
 
-which will create a new file `dist/helloworld.so` which is our eBPF binary to deploy.
+This will create `./dist/helloworld.so` which is the eBPF binary to deploy.
 
 ## Deploying our binary
 
@@ -235,7 +241,7 @@ p.send(buf)
 p.stream()
 ```
 
-To test it, simply launch and instance of the docker image:
+To test it, simply launch and instance of the challenge's docker image:
 
 ```
 $ docker run --rm -p 8080:8080 picoctf2022-solfire
@@ -280,12 +286,12 @@ EXECUTE  (slot 0)
 ```
 {:.contains-term}
 
-Aha! We've confirmed that our program runs! Plus we now have a bunch of useful log information we can use to debug potential problems we might face along the way. **Problems like how to steal 50000 lamports from the vault!**
+**Aha!** We've confirmed that our program runs! Plus we now have a bunch of useful log information we can use to debug potential problems we might face along the way - **Problems like how to steal 50000 lamports from the vault!**
 
-In Part III of this series (*coming soon*), we will look at how to exploit `solfire.so` to steal those lamports and grab the flag.
+In [Part III of this series]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire/part-3.md %}), we will look at how to exploit `solfire.so` to steal those lamports and grab the flag.
 
 I. [Part I - Reversing the Binary]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire.md %})  
 II. [Part II - Environment Setup]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire/part-2.md %}) (you are here)  
-III. Part III - Exploitation (*coming soon*)
+III. [Part III - Exploitation]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire/part-3.md %})
 
 Or, if you want to read about other challenges, head back to the [picoCTF 2022 Greatest Hits Guide]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits.md %}).

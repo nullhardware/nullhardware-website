@@ -16,20 +16,20 @@ image:
 
 Solfire had the fewest solves of all the challenges in picoCTF 2022. Only a handful of teams were able to solve it during the competition. We came to the challenge late, having done all the other challenges first. Our approach isn't the most elegant, but it did (eventually) get the job done.
 
-This is the first part of a *three part series*. In Part I, we cover reversing the eBPF binary we were given.
+This is the first part of a *three part series*. In Part I, we will cover reversing the eBPF binary we were given.
 
 I. [Part I - Reversing the Binary]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire.md %}) (you are here)  
 II. [Part II - Environment Setup]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire/part-2.md %})  
-III. Part III - Exploitation (*coming soon*)
+III. [Part III - Exploitation]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire/part-3.md %})
 
 ## The Problem
 
-For this challenge we get thrown straight into the deep end. We get access to a Dockerfile, a `solfire.so` binary, and some rust source code. We are also given the following cryptic hint:
+For this challenge we get thrown straight into the deep end. **We only have access to a Dockerfile, a `solfire.so` binary, and some rust source code.** We are also given the following cryptic hint:
 
 > What is debt? A perversion of a promise?  
 Surely one has to [pay one's debts](https://blog.osec.io/tutorials/2022-03-14-solana-security-intro/).
 
-Welp. We don't really know rust. This binary they've given us isn't an x86_64 binary, it's for an architecture called `eBPF`. Looks like we've got our work cut out for us.
+Welp. We don't really know rust. This binary they've given us isn't an x86_64 binary, it's for an architecture called `eBPF`. Looks like we'll have our work cut out for us.
 
 ## Decoding the Rust
 
@@ -51,9 +51,11 @@ use poc_framework::{
 };
 ```
 
-To be honest, Solana wasn't something we were familiar with, but we did recently complete the excellent [Damn Vulnerable DeFi](https://www.damnvulnerabledefi.xyz/) Ethereum challenges, so maybe some of that knowledge will pay-off here.
+To be honest, Solana isn't something we are familiar with, but we did recently complete the excellent [Damn Vulnerable DeFi](https://www.damnvulnerabledefi.xyz/) Ethereum challenges, so maybe some of that knowledge will pay-off here.
 
-Researching the packages involved, we learn that [poc_framework](https://github.com/neodyme-labs/solana-poc-framework) is something like Hardhat - a way to deploy a test environment with our own users and smart contracts.
+It turns out [poc_framework](https://github.com/neodyme-labs/solana-poc-framework) is something like Hardhat - a way to deploy a Solana test environment with our own users and smart contracts.
+
+Let's see what this code is doing:
 
 ```rust
 let mut env_builder = LocalEnvironment::builder();
@@ -71,7 +73,13 @@ writeln!(socket, "user pubkey: {}", user.pubkey())?;
 let (vault, _) = Pubkey::find_program_address(&["vault".as_ref()], &program_pubkey);
 ```
 
-Looks like this code deploys two smart contracts: the `solfire.so` binary and **one of our own**. There is also a `user` account. We're given the public keys for both of the contracts and the user. There is also a *vault* account, which is somehow derived from the smart-contract's public key, but we aren't given any information about it.
+Looks like it deploys two smart contracts: the `solfire.so` binary and **one of our own**.
+
+There is also a *user* account.
+
+There is also a *vault* account, which is somehow derived from the smart-contract's public key, but we aren't given any information about it.
+
+However, we are given the public keys for both of the contracts and the user account.
 
 ```rust
 const TARGET_AMT: u64 = 50_000;
@@ -93,9 +101,9 @@ env.execute_as_transaction(
 );
 ```
 
-Here we see the user ends up with 10 lamports (`INIT_BAL`) and the vault ends up with 1,000,000 lamports (`VAULT_BAL`). We can surmise that the `solfire.so` contract is in control of the vault.
+We learn that the user is given 10 lamports (`INIT_BAL`) and the vault is given 1,000,000 lamports (`VAULT_BAL`). We can surmise that the `solfire.so` contract is in control of the vault.
 
-Following that code there is a section on parsing some account metadata stuff - to be honest we don't really understand that part yet. This is new to us and must be specific to Solana - *it doesn't resemble anything we've seen while doing the Ethereum challenges*.
+Following that there is a section on parsing some account metadata stuff - to be honest we don't really understand that part yet. This is new to us and must be specific to Solana - *it doesn't resemble anything we've seen while doing the Ethereum challenges*.
 
 Finally there's this bit, which is where we learn how to get the flag:
 
@@ -135,13 +143,13 @@ if user_bal > TARGET_AMT {
 }
 ```
 
-Aha! We get to specify some instruction data and call a single instruction on our smart contract. If, after the transaction executes, the user's account balance is > 50,000 lamports then the flag will be printed.
+**Aha!** We get to specify some instruction data and call a single instruction on our smart contract. If, after the transaction executes, the user's account balance is > 50,000 lamports then the flag will be printed.
 
 **All we have to do is turn our measly 10 lamports into over 50,000 lamports in a single transaction! _How hard could that be_...**
 
 ## Decoding the eBPF Smart Contract
 
-The next problem is decoding this `solfire.so` binary. Apparently there are some [ghidra plugins](https://github.com/Toizi/eBPF-for-Ghidra) for that, but getting those to work would probably mean compiling some java. Since compiling java and dealing with setting up the environment and plugins correctly is my least favourite thing in the world - let's instead see if we can crack this nut in a **more difficult** and **time consuming** way.
+The next problem is decoding this pesky `solfire.so` binary. Apparently there are some [ghidra plugins](https://github.com/Toizi/eBPF-for-Ghidra) for that, but getting those to work would probably mean compiling some java. Since compiling java and dealing with setting up the environment and plugins correctly is my least favourite thing in the world - let's instead see if we do this in a **more difficult** and **time consuming** way.
 
 In general `readelf` does seem to understand the binary. It's a dynamic library, so let's see what functions it exports:
 
@@ -174,7 +182,7 @@ Symbol table '.dynsym' contains 19 entries:
 
 After a bit of research we decide that we're probably most interested in the `entrypoint` function, and then the `solfire` function, and finally the 3 functions with a similar name: `handle_create`, `handle_withdraw` and `handle_deposit`.
 
-Unfortunately, my version of the regular `objdump` binary doesn't seem to like this architecture. However, it looks like llvm-12 has a version of objdump that can read and disassembly eBPF binaries.
+Unfortunately, my version of the regular `objdump` binary doesn't seem to like this architecture. However, it does look like llvm-12 has a version of objdump that can read and disassembly eBPF binaries.
 
 ```
 $ docker run --rm -it -v $PWD:/work -w /work silkeh/clang:12 llvm-objdump -S solfire.so
@@ -225,7 +233,7 @@ Disassembly of section .text:
 
 We stare at the assembly for a while. *We stare some more*. We give up.
 
-We're going to need some tooling support. The generated code is extremely memory-heavy, with lots of pointers and offsets.
+**We're going to need some tooling support. The generated code is too memory-heavy, with lots of pointers and offsets, it's really difficult to tell what's going on.**
 
 At some point I stumbled upon [uBPF](https://github.com/iovisor/ubpf) which can jit eBPF bytecode to x86_64 instructions in userland. For better or for worse, I decided to take the following approach (which is admittedly a bit *crazy*):
 
@@ -237,15 +245,26 @@ At some point I stumbled upon [uBPF](https://github.com/iovisor/ubpf) which can 
 5. Extract the `.rodata` section, and correct the assembly such that it properly references the static strings contained there.
 6. Compile my own object file with stubs for the missing external functions. Also, define some of the basic structures from emsdk and compile with debugging symbols enabled so that they are available for use by the decompiler.
 
-This was obviously a highly-manual process. I've since improved it somewhat by allowing uBPF to directly intake the eBPF `.so` and output a static `.o` file in x86_64, *but that's a post for another time*. In any case, this is what I did during the competition.
+This was obviously a highly-manual process. I've since improved it somewhat by allowing uBPF to directly intake the eBPF `.so` and output a static `.o` file in x86_64, *but that's a post for another time*. In any case, this is what I actually did during the competition.
+
+---
 
 **The result is this [binary]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire/solfire_x86_64 %}), which is a _normal_ x86_64 binary that is compatible with all of the regular tools (ie: ghidra).**
+{:.alert .alert-success}
 
-We can now analyze each of the functions of interest in turn:
+---
+
+## Binary Analysis
+
+We can now analyze each of those functions of interest in turn:
+
+---
 
 ### entrypoint
 
-I didn't spend a lot of time on this function. The normal behavior is to use the library deserializer and then just call another function, in this case `solfire`.
+I didn't spend a lot of time on this function. The normal behavior for entrypoints is to use the library deserializer and then just call another function, in this case `solfire`.
+
+---
 
 ### solfire
 
@@ -346,7 +365,7 @@ lbl60155:
   </div>
 </div>
 
-This function is a little long, but as the functional "entrypoint" for this smart-contract it does the following *every time* any of the other functions (handle_create, handle_deposit, handle_withdraw) are invoked:
+This function is a little long, but as the functional "entrypoint" for this smart-contract it does the following *every time* any of the other functions (`handle_create`, `handle_deposit`, or `handle_withdraw`) are invoked:
 
 1. b58 encode the public key for `accounts[0]` (**_NOTE_: this is probably a lot of computation**)
 2. Search the encoded address for the sub-string `"C1ock"`
@@ -361,6 +380,8 @@ This function is a little long, but as the functional "entrypoint" for this smar
   d) Otherwise, log the value and quit
 
 Basically, `account[0]` **_must_** have an address that contains `"C1ock"`. It turns out there is a built-in Solana [SysVar](https://docs.solana.com/developing/runtime-facilities/sysvars#clock) that has an address that contains the string `"C1ock"`. But what is at offset `0x20`? A unix timestamp. And what time is `0x6230b800`? **Tue Mar 15 2022 16:00:00 GMT+0000** - ie: the exact start of picoCTF 2022. Obviously we somehow need to use something else here, or maybe somehow invent time travel.
+
+---
 
 ### handle_create
 
@@ -485,14 +506,18 @@ This function is a little simpler to understand:
 
 1. Make sure we've passed in exactly 5 accounts
 2. Make sure `accounts[1]` key is all zeros. (In b58 encoding, all zeros is represented as `11111111111111111111111111111111` - which is the [system program](https://docs.solana.com/developing/runtime-facilities/programs#system-program))
-3. Construct a seed based on 1 byte from the instruction data (at offset 4, which immediately proceeds the 4 bytes used to specify that we wanted to call `handle_create` in the first place).
-4. Construct some account metadata, where the first account is `accounts[4]` and the second account is `accounts[2]`, both of which must have `WRITE` and `SIGNER` permissions.
+3. Construct a seed based on 1 byte from the instruction data (at offset 4, which immediately follows the 4 bytes used to specify `handle_create` in the first place).
+4. Construct some account metadata with exactly 2 accounts:  
+  i) `accounts[4]` (`SIGN` + `WRITE` permissions)  
+  ii) `accounts[2]` (`SIGN` + `WRITE` permissions)
 5. Do a cross-program invocation to the [SYSTEM program](https://docs.rs/solana-program/1.10.7/solana_program/system_instruction/enum.SystemInstruction.html). We send `0x34` bytes of instruction data:  
-  a) 4 bytes of zeros - Indicates we want the `CreateAccount` instruction  
-  b) 8 bytes [`0x01` padded with zeros] - Number of lamports to transfer into the new account  
-  c) 8 bytes [`0x2800` padded with zeros] - Space to allocate (in data) for the new account  
-  d) 32 bytes [copied from `program_id` ] - Owner of the new account
-6. For the `CreateAccount` call, the first account in the metadata (`accounts[4]`) is the *funding* account, and the second account in the metadata (`accounts[2]`) is the created account. Since these accounts must both signed, and it costs 1 lamport, the only choice for `accounts[4]` is user (who starts out with 10 lamports and can sign the transaction).
+  - 4 bytes - [all zeros] - Indicates we want the `CreateAccount` instruction  
+  - 8 bytes - [`0x01` padded with zeros] - Number of lamports to transfer into the new account  
+  - 8 bytes - [`0x2800` padded with zeros] - Space to allocate (in data) for the new account  
+  - 32 bytes - [copied from `program_id` ] - Owner of the new account
+6. For the `CreateAccount` call, the first account in the metadata (`accounts[4]`) is the *funding* account, and the second account in the metadata (`accounts[2]`) is the created account. Since these accounts must both signed, and it costs 1 lamport, the only choice for `accounts[4]` is user (who starts out with 10 lamports and can sign the transaction). (The program itself is signing on behalf of `accounts[2]` as this is a Program Derived Address - more on that later).
+
+---
 
 ### handle_deposit
 
@@ -614,20 +639,27 @@ lbl401cb:
 
 This one is a little more complicated than the last, but is still understandable:
 
-1. Make sure we've passed in exactly 5 accounts (still).
-2. Make sure `accounts[1]` key is all zeros. (In b58 encoding, all zeros is represented as `11111111111111111111111111111111` - which is the [system program](https://docs.solana.com/developing/runtime-facilities/programs#system-program))
+1. Make sure we've passed in exactly 5 accounts (again).
+2. Make sure `accounts[1]` key is all zeros (again).
 3. Make sure `accounts[2]` has an owner and the public key matches `program_id` (ie: that account should be owned by the current program). **NOTE**: I will refer to `accounts[2]` as the "ledger" account.
 4. `accounts[3]` **MUST** have signed the request
 5. There should be at least 12 bytes of data
-6. Treat the input data as an array of ints. `input[1]` **MUST** be less than or equal to `0x280`. `input[2]` cannot be zero. (Recall: `input[0]` was `1` if handle_deposit was called from `solfire`).
-7. Construct some account metadata, where the first account is `accounts[3]` and the second account is `accounts[4]`. `accounts[3]` is a signer, and both accounts must have `WRITE` permissions.
+6. Treat the input data as an array of ints with the following restrictions:
+- `input[0]` was `1` if we got to `handle_deposit` in the first place
+- `input[1]` **MUST** be less than or equal to `0x280`
+- `input[2]` cannot be zero.
+7. Construct some account metadata with exactly 2 accounts:  
+  i) `accounts[3]` (`SIGN` + `WRITE` permissions)  
+  ii) `accounts[4]` (`WRITE` permissions)
 8. Do a cross-program invocation to the [SYSTEM program](https://docs.rs/solana-program/1.10.7/solana_program/system_instruction/enum.SystemInstruction.html). We send `0x0c` bytes of instruction data:  
-  a) 4 bytes [`0x02` padded with zeros] - Indicates we want the `Transfer` [instruction](https://docs.rs/solana-program/1.10.7/solana_program/system_instruction/enum.SystemInstruction.html#variant.Transfer).  
-  b) 8 bytes [`input[2]` padded with zeros] - Number of lamports to transfer into destination account  
-6. For the `Transfer` call, the first account in the metadata (`accounts[3]`) is the *funding* account, and the second account in the metadata (`accounts[4]`) is the account receiving the funds. **NOTE:** The *funding* account must be owned by the system program, as only the owner of the funding account can decrement it's lamports (anyone can increment any account, but overall things have to balance at the end of the transaction).
-7. Finally, there is a bit of book keeping. We modify `accounts[2]`'s data (which only the owner can do, but that was already verified). We index into the data by `0x10` * `input[1]`, and increment the second 8 bytes at that offset by the transferred amount.
+  - 4 bytes - [`0x02` padded with zeros] - Indicates we want the `Transfer` [instruction](https://docs.rs/solana-program/1.10.7/solana_program/system_instruction/enum.SystemInstruction.html#variant.Transfer).  
+  - 8 bytes - [`input[2]` padded with zeros] - Number of lamports to transfer into destination account  
+6. For the `Transfer` call: the first account (`accounts[3]`) is the *funding* account, and the second account (`accounts[4]`) is the account receiving the funds. **NOTE:** The *funding* account must be owned by the system program, as only the owner of the funding account can decrement it's lamports (anyone can increment any account, but overall things have to balance at the end of the transaction).
+7. Finally, there is a bit of book keeping. We modify `accounts[2]`'s data (*which only the owner can do, but that was already verified*). We index into the data by `0x10` * `input[1]`, and increment the second 8 bytes at that offset by the transferred amount.
 
 This is interesting. There are clearly some flaws here. For one, there are no restrictions on where the transfers go. So, for instance, you could funnel any transaction through this function (including one from and to yourself) and it would increment the requested entry in the ledger account (my name for `accounts[2]`). Also, there is no ownership associated with any of the entries in the ledger account. Anyone can specify any entry. It also turns out there's also **another bug** here which we'll get to later. *Can you spot it*?
+
+---
 
 ### handle_withdraw
 
@@ -768,31 +800,53 @@ This function has a lot of similarities with `handle_deposit`.
 3. Make sure `accounts[2]` has an owner and the public key matches `program_id` (ie: that account should be owned by the current program). **NOTE**: I will refer to `accounts[2]` as the "ledger" account.
 4. `accounts[3]` **MUST** have signed the request
 5. There should be at least 16 bytes of data
-6. Treat the input data as an array of ints. `in_data[1]` **MUST** be less than or equal to `0x280`. `in_data[2]` cannot be zero. (Recall: `in_data[0]` was `2` if handle_withdraw was called from `solfire`). Only the first byte of `in_data[3]` is used, and it is used to construct the seed needed to sign the transaction.
-7. Construct some account metadata, where the first account is `accounts[4]` and the second account is `accounts[3]`. `accounts[4]` is a signer and both accounts must have `WRITE` permissions.
+6. Treat the input data as an array of ints with the following restrictions:
+- `in_data[0]` was `2` if we got to `handle_withdraw` in the first place
+- `in_data[1]` **MUST** be less than or equal to `0x280`
+- `in_data[2]` cannot be zero.
+- `in_data[3]` the very first byte must be the seed/nonce used to sign the transaction
+7. Construct some account metadata with exactly 2 accounts:  
+  i) `accounts[4]` (`SIGN` + `WRITE` permissions)  
+  ii) `accounts[3]` (`WRITE` permissions)
 8. Do a cross-program invocation to the [SYSTEM program](https://docs.rs/solana-program/1.10.7/solana_program/system_instruction/enum.SystemInstruction.html). We send `0x0c` bytes of instruction data:  
-  a) 4 bytes [`0x02` padded with zeros] - Indicates we want the `Transfer` [instruction](https://docs.rs/solana-program/1.10.7/solana_program/system_instruction/enum.SystemInstruction.html#variant.Transfer).  
-  b) 8 bytes [`in_data[2]` padded with zeros] - number of lamports to transfer into the new account  
-6. For the `Transfer` call, the first account in the metadata (`accounts[4]`) is the *funding* account, and the second account in the metadata (`accounts[3]`) is the account receiving the funds. There is extra logic this time around because the program is signing the request on behalf of the vault account (the vault account is a program-derived-address, which means that only this program can sign for it, but it must use the correct seed associated with that particular account). Since we go through the processes of signing on behalf of the vault account, and only the first account needs to be signed, we can surmise that `accounts[4]` *should* be the vault account.
-7. Finally, there is a bit of book keeping. We modify `accounts[2]`'s data (which only the owner can do, but that was already verified). We index into the data by `0x10` * `in_data[1]`, and increment the *first* 8 bytes at that offset by the transfered amount. We then verify that the new total of the first 8 bytes does not exceed the value of the second 8 bytes. We can take this to mean that the total withdrawn in this entry should not exceed the total deposited (recall that the second 8 bytes was incremented in `handle_deposit`).
+  - 4 bytes - [`0x02` padded with zeros] - Indicates we want the `Transfer` [instruction](https://docs.rs/solana-program/1.10.7/solana_program/system_instruction/enum.SystemInstruction.html#variant.Transfer).  
+  - 8 bytes - [`in_data[2]` padded with zeros] - number of lamports to transfer into the new account  
+9. For the `Transfer` call, the first account in the metadata (`accounts[4]`) is the *funding* account, and the second account in the metadata (`accounts[3]`) is the account receiving the funds. There is extra logic this time around because the program is signing the request on behalf of the vault account (the vault account is a program-derived-address, which means that only this program can sign for it, but it must use the correct seed associated with that particular account). Since we go through the processes of signing on behalf of the vault account, and only the first account needs to be signed, we can surmise that `accounts[4]` *should* be the vault account.
+10. Finally, there is a bit of book keeping. We modify `accounts[2]`'s data (which only the owner can do, but that was already verified). We index into the data by `0x10` * `in_data[1]`, and increment the *first* 8 bytes at that offset by the transfered amount. We then verify that the new total of the first 8 bytes does not exceed the value of the second 8 bytes. We can take this to mean that the total withdrawn in this entry should not exceed the total deposited (recall that the second 8 bytes was incremented in `handle_deposit`).
 
-## Some common threads
+---
 
-Notice in the above code there is a common calling pattern for all of the solfire functions. The accounts are expected in the following order:
+## Calling Convention
 
-0. The `C1ock` address
-1. The System address
-2. The ledger address
-3. The user address
-4. The vault address
+For `handle_deposit (0x01)` / `handle_withdraw (0x02)` the accounts are expected in the following order:
 
-So, for instance, `accounts[2]` is always the ledger account (which is expected to be generated by a call to `handle_create`). `handle_deposit` transfers *from* `accounts[3]` (user - must be signed) into `accounts[4]` (could be any). `handle_withdraw` transfers into `accounts[3]` (could be any, but we probably want it to be user) *from* `accounts[4]` (vault - must be signed). The system address is used to initiate cross-program invocations.
+- [0] - The `C1ock` address
+- [1] - The *System* address
+- [2] - The *ledger* address
+- [3] - The *user* address
+- [4] - The *vault* address
+
+While for `handle_create (0x00)` the accounts are expected in the following order:
+
+- [0] - The `C1ock` address
+- [1] - The *System* address
+- [2] - The *ledger* address
+- [3] - Not used
+- [4] - The *user* address
+
+Recap:
+- `accounts[0]` **must** contain `C1ock` (when b58 encoded) but **cannot** be the `C1ock` SysVar
+- `accounts[1]` **must** be the *System* address
+- `accounts[2]` is always the *ledger* account (which is **expected** to be generated by a call to `handle_create`)
+- `handle_deposit` transfers *from* `accounts[3]` (*user* - must be signed) into `accounts[4]` (could be any). It takes an index into the ledger data and the number of lamports to transfer.
+- `handle_withdraw` transfers into `accounts[3]` (could be any, but we probably want it to be *user*) *from* `accounts[4]` (*vault* - must be signed). It taks an index into the ledger data, the number of lamports to transfer, as well as the nonce for the *vault* PDA.
+- The *system* address is used for cross-program invocations of `CreateAccount` and `Transfer`
 
 In [Part II of this series]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire/part-2.md %}), we will look at setting up a test environment with some debug logging and deploying our very own smart-contract.
 
 I. [Part I - Reversing the Binary]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire.md %}) (you are here)  
 II. [Part II - Environment Setup]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire/part-2.md %})  
-III. Part III - Exploitation (*coming soon*)
+III. [Part III - Exploitation]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire/part-3.md %})
 
 Or, if you want to read about other challenges, head back to the [picoCTF 2022 Greatest Hits Guide]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits.md %}).
 
