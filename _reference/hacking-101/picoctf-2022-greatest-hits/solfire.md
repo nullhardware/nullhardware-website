@@ -12,15 +12,15 @@ image:
 
 # picoCTF 2022 - Solfire - Part I
 
-> **Note**: This article is part of our [picoCTF 2022 Greatest Hits Guide]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits.md %}).
+> **Note**: This article is part of our [picoCTF 2022 Greatest Hits Guide]({% link _reference/hacking-101/picoctf-2022-greatest-hits.md %}).
 
 Solfire had the fewest solves of all the challenges in picoCTF 2022. Only a handful of teams were able to solve it during the competition. We came to the challenge late, having done all the other challenges first. Our approach isn't the most elegant, but it did (eventually) get the job done.
 
 This is the first part of a *three part series*. In Part I, we will cover reversing the eBPF binary we were given.
 
-I. [Part I - Reversing the Binary]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire.md %}) (you are here)  
-II. [Part II - Environment Setup]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire/part-2.md %})  
-III. [Part III - Exploitation]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire/part-3.md %})
+I. [Part I - Reversing the Binary]({% link _reference/hacking-101/picoctf-2022-greatest-hits/solfire.md %}) (you are here)  
+II. [Part II - Environment Setup]({% link _reference/hacking-101/picoctf-2022-greatest-hits/solfire/part-2.md %})  
+III. [Part III - Exploitation]({% link _reference/hacking-101/picoctf-2022-greatest-hits/solfire/part-3.md %})
 
 ## The Problem
 
@@ -249,7 +249,7 @@ This was obviously a highly-manual process. I've since improved it somewhat by a
 
 ---
 
-**The result is this [binary]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire/solfire_x86_64 %}), which is a _normal_ x86_64 binary that is compatible with all of the regular tools (ie: ghidra).**
+**The result is this [binary]({% link _reference/hacking-101/picoctf-2022-greatest-hits/solfire/solfire_x86_64 %}), which is a _normal_ x86_64 binary that is compatible with all of the regular tools (ie: ghidra).**
 {:.alert .alert-success}
 
 ---
@@ -842,11 +842,11 @@ Recap:
 - `handle_withdraw` transfers into `accounts[3]` (could be any, but we probably want it to be *user*) *from* `accounts[4]` (*vault* - must be signed). It taks an index into the ledger data, the number of lamports to transfer, as well as the nonce for the *vault* PDA.
 - The *system* address is used for cross-program invocations of `CreateAccount` and `Transfer`
 
-In [Part II of this series]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire/part-2.md %}), we will look at setting up a test environment with some debug logging and deploying our very own smart-contract.
+In [Part II of this series]({% link _reference/hacking-101/picoctf-2022-greatest-hits/solfire/part-2.md %}), we will look at setting up a test environment with some debug logging and deploying our very own smart-contract.
 
-I. [Part I - Reversing the Binary]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire.md %}) (you are here)  
-II. [Part II - Environment Setup]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire/part-2.md %})  
-III. [Part III - Exploitation]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire/part-3.md %})
+I. [Part I - Reversing the Binary]({% link _reference/hacking-101/picoctf-2022-greatest-hits/solfire.md %}) (you are here)  
+II. [Part II - Environment Setup]({% link _reference/hacking-101/picoctf-2022-greatest-hits/solfire/part-2.md %})  
+III. [Part III - Exploitation]({% link _reference/hacking-101/picoctf-2022-greatest-hits/solfire/part-3.md %})
 
-Or, if you want to read about other challenges, head back to the [picoCTF 2022 Greatest Hits Guide]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits.md %}).
+Or, if you want to read about other challenges, head back to the [picoCTF 2022 Greatest Hits Guide]({% link _reference/hacking-101/picoctf-2022-greatest-hits.md %}).
 

@@ -28,7 +28,7 @@ description: The "Awesome List" of all our electronics/circuits/coding tutorials
   {% assign pgtopic = pg.path | replace_first: "_reference/","" | replace_first: pgfile,"" %}
   {% unless pgtopic == ctopic %}
     {% assign ctopic = pgtopic %}
-    <li><a href="#{{ctopic | slugify}}" title="{{ctopic}}">{{ctopic}}</a></li>
+    <li><a href="#{{ctopic | slugify}}" title="{{ctopic}}">{{ctopic | capitalize}}</a></li>
   {% endunless %}
 {% endfor %}
 </ul>

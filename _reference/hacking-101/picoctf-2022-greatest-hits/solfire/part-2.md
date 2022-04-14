@@ -12,13 +12,13 @@ image:
 
 # picoCTF 2022 - Solfire (Part II)
 
-> **Note**: This article is part of our [picoCTF 2022 Greatest Hits Guide]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits.md %}).
+> **Note**: This article is part of our [picoCTF 2022 Greatest Hits Guide]({% link _reference/hacking-101/picoctf-2022-greatest-hits.md %}).
 
 This is the second part of a *three part series*. In Part II, we will cover setting up your test environment and deploying an eBPF binary.
 
-I. [Part I - Reversing the Binary]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire.md %})  
-II. [Part II - Environment Setup]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire/part-2.md %}) (you are here)  
-III. [Part III - Exploitation]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire/part-3.md %})
+I. [Part I - Reversing the Binary]({% link _reference/hacking-101/picoctf-2022-greatest-hits/solfire.md %})  
+II. [Part II - Environment Setup]({% link _reference/hacking-101/picoctf-2022-greatest-hits/solfire/part-2.md %}) (you are here)  
+III. [Part III - Exploitation]({% link _reference/hacking-101/picoctf-2022-greatest-hits/solfire/part-3.md %})
 
 ## The Problem
 
@@ -160,7 +160,7 @@ extern uint64_t entrypoint(const uint8_t *input) {
 
 ---
 
-**If you want, you can download all three of these files together here: [helloworld.tgz]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire/helloworld.tgz %}).**
+**If you want, you can download all three of these files together here: [helloworld.tgz]({% link _reference/hacking-101/picoctf-2022-greatest-hits/solfire/helloworld.tgz %}).**
 {:.alert .alert-success}
 
 ---
@@ -288,10 +288,10 @@ EXECUTE  (slot 0)
 
 **Aha!** We've confirmed that our program runs! Plus we now have a bunch of useful log information we can use to debug potential problems we might face along the way - **Problems like how to steal 50000 lamports from the vault!**
 
-In [Part III of this series]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire/part-3.md %}), we will look at how to exploit `solfire.so` to steal those lamports and grab the flag.
+In [Part III of this series]({% link _reference/hacking-101/picoctf-2022-greatest-hits/solfire/part-3.md %}), we will look at how to exploit `solfire.so` to steal those lamports and grab the flag.
 
-I. [Part I - Reversing the Binary]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire.md %})  
-II. [Part II - Environment Setup]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire/part-2.md %}) (you are here)  
-III. [Part III - Exploitation]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire/part-3.md %})
+I. [Part I - Reversing the Binary]({% link _reference/hacking-101/picoctf-2022-greatest-hits/solfire.md %})  
+II. [Part II - Environment Setup]({% link _reference/hacking-101/picoctf-2022-greatest-hits/solfire/part-2.md %}) (you are here)  
+III. [Part III - Exploitation]({% link _reference/hacking-101/picoctf-2022-greatest-hits/solfire/part-3.md %})
 
-Or, if you want to read about other challenges, head back to the [picoCTF 2022 Greatest Hits Guide]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits.md %}).
+Or, if you want to read about other challenges, head back to the [picoCTF 2022 Greatest Hits Guide]({% link _reference/hacking-101/picoctf-2022-greatest-hits.md %}).

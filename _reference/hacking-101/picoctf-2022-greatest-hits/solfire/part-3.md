@@ -12,17 +12,17 @@ image:
 
 # picoCTF 2022 - Solfire (Part III)
 
-> **Note**: This article is part of our [picoCTF 2022 Greatest Hits Guide]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits.md %}).
+> **Note**: This article is part of our [picoCTF 2022 Greatest Hits Guide]({% link _reference/hacking-101/picoctf-2022-greatest-hits.md %}).
 
 This is the third part of a *three part series*. In Part III, we figure out how to exploit `solfire.so` and steal some lamports.
 
-I. [Part I - Reversing the Binary]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire.md %})  
-II. [Part II - Environment Setup]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire/part-2.md %})  
-III. [Part III - Exploitation]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire/part-3.md %}) (you are here)
+I. [Part I - Reversing the Binary]({% link _reference/hacking-101/picoctf-2022-greatest-hits/solfire.md %})  
+II. [Part II - Environment Setup]({% link _reference/hacking-101/picoctf-2022-greatest-hits/solfire/part-2.md %})  
+III. [Part III - Exploitation]({% link _reference/hacking-101/picoctf-2022-greatest-hits/solfire/part-3.md %}) (you are here)
 
 ## The Basics
 
-Recall from [Part I]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire.md %}) that functions from `solfire.so` must be called with 5 accounts. For `handle_create` they should be in the following order (for deposit/withdraw the order is slightly different):
+Recall from [Part I]({% link _reference/hacking-101/picoctf-2022-greatest-hits/solfire.md %}) that functions from `solfire.so` must be called with 5 accounts. For `handle_create` they should be in the following order (for deposit/withdraw the order is slightly different):
 
 - [0] - The `C1ock` address
 - [1] - The *System* address
@@ -32,11 +32,11 @@ Recall from [Part I]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/s
 
 **To start with, let's see if we can get `handle_create` to work, since we'll need a ledger account in order to call `handle_deposit` or `handle_withdraw`.**
 
-Recall from our analysis in [Part I]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire.md %}) that in order to successfully call `handle_create` we must supply the actual address of the ledger account and provide 5 bytes of instruction data, where the 5th byte gets used as the seed. How does this work? These addresses are called [Program Derived Addresses (PDA's)](https://docs.solana.com/developing/programming-model/calling-between-programs#program-derived-addresses) and are special addresses that can only be used by programs and are deterministically derived from the program's public key and a seed.
+Recall from our analysis in [Part I]({% link _reference/hacking-101/picoctf-2022-greatest-hits/solfire.md %}) that in order to successfully call `handle_create` we must supply the actual address of the ledger account and provide 5 bytes of instruction data, where the 5th byte gets used as the seed. How does this work? These addresses are called [Program Derived Addresses (PDA's)](https://docs.solana.com/developing/programming-model/calling-between-programs#program-derived-addresses) and are special addresses that can only be used by programs and are deterministically derived from the program's public key and a seed.
 
 ---
 
-**In order to conveniently do these calculations from our python script, I've pulled together some python code from various sources to assist in these calculations: [solana_helpers.py]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire/solana_helpers.py %}) _(see code for source links and licenses)_**
+**In order to conveniently do these calculations from our python script, I've pulled together some python code from various sources to assist in these calculations: [solana_helpers.py]({% link _reference/hacking-101/picoctf-2022-greatest-hits/solfire/solana_helpers.py %}) _(see code for source links and licenses)_**
 {:.alert .alert-success}
 
 ---
@@ -140,7 +140,7 @@ And if we check our log output, we can verify that `handle_create` was called an
 
 ## Petty Theft
 
-Let's now attempt the first attack that came to mind in [Part I]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire.md %}):
+Let's now attempt the first attack that came to mind in [Part I]({% link _reference/hacking-101/picoctf-2022-greatest-hits/solfire.md %}):
 
 1. Create the ledger account with `handle_create`
 2. Call `handle_deposit` with **both** account 3 and account 4 set to *user*. This will transfer funds from the *user* to *user* while incrementing the ledger's "deposit" record.
@@ -327,7 +327,7 @@ Unfortunately, this is about when our luck runs out. Since you only have 9 lampo
 ```
 {:.contains-term}
 
-The key part being `"consumed 200000 of 200000 compute units"`. Apparently, there is an upper-limit on the number of computations a given instruction/transaction is allowed. There are some mechanisms to bump this number up slightly, but they are required to be entered into the transaction directly and not executed as a cross-program invocation. The main problem here is that every call to `solfire` is incredibly expensive - consuming over 20% of our total budget. As pointed out in [Part I]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire.md %}) - this is likely due to the use of b58encode inside the contract itself.
+The key part being `"consumed 200000 of 200000 compute units"`. Apparently, there is an upper-limit on the number of computations a given instruction/transaction is allowed. There are some mechanisms to bump this number up slightly, but they are required to be entered into the transaction directly and not executed as a cross-program invocation. The main problem here is that every call to `solfire` is incredibly expensive - consuming over 20% of our total budget. As pointed out in [Part I]({% link _reference/hacking-101/picoctf-2022-greatest-hits/solfire.md %}) - this is likely due to the use of b58encode inside the contract itself.
 
 ## A path forward
 
@@ -493,8 +493,8 @@ flag: "picoCTF{===REDACTED===}"
 
 Here are the 3 parts again if you want to go back:
 
-I. [Part I - Reversing the Binary]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire.md %})  
-II. [Part II - Environment Setup]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire/part-2.md %})  
-III. [Part III - Exploitation]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire/part-3.md %}) (you are here)
+I. [Part I - Reversing the Binary]({% link _reference/hacking-101/picoctf-2022-greatest-hits/solfire.md %})  
+II. [Part II - Environment Setup]({% link _reference/hacking-101/picoctf-2022-greatest-hits/solfire/part-2.md %})  
+III. [Part III - Exploitation]({% link _reference/hacking-101/picoctf-2022-greatest-hits/solfire/part-3.md %}) (you are here)
 
-Or, if you want to read about other challenges, head back to the [picoCTF 2022 Greatest Hits Guide]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits.md %}).
+Or, if you want to read about other challenges, head back to the [picoCTF 2022 Greatest Hits Guide]({% link _reference/hacking-101/picoctf-2022-greatest-hits.md %}).

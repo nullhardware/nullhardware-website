@@ -21,7 +21,7 @@ Note: For most challenges all you need as a linux machine (a Kali VM or WSL2 is 
 
 ## List of Challenges
 
-### 1. [Sequences]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/sequences.md %}) (**Crypto** - *400 Points*)
+### 1. [Sequences]({% link _reference/hacking-101/picoctf-2022-greatest-hits/sequences.md %}) (**Crypto** - *400 Points*)
 
 >
 ```
@@ -40,10 +40,10 @@ Traceback (most recent call last):
 RecursionError: maximum recursion depth exceeded in comparison
 ```
 > Solving crypto problems through the power of linear algebra!  
-> [> Read More]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/sequences.md %})
+> [> Read More]({% link _reference/hacking-101/picoctf-2022-greatest-hits/sequences.md %})
 {:.contains-term}
 
-### 2. [Solfire]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire.md %}) (**Binary Exploitation** - *500 Points*)
+### 2. [Solfire]({% link _reference/hacking-101/picoctf-2022-greatest-hits/solfire.md %}) (**Binary Exploitation** - *500 Points*)
 
 >
 ```
@@ -51,5 +51,5 @@ $ file solfire.so
 solfire.so: ELF 64-bit LSB shared object, eBPF, version 1 (SYSV), dynamically linked, not stripped
 ```
 > Our three-part series covers reversing and exploiting a Solana smart-contract to steal over 50,000 lamports. This challenge had less than 10 solves during the picoCTF 2022 competition.  
-> [> Read More]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits/solfire.md %})
+> [> Read More]({% link _reference/hacking-101/picoctf-2022-greatest-hits/solfire.md %})
 {:.contains-term}

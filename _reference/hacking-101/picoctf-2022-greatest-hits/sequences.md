@@ -12,7 +12,7 @@ image:
 
 # picoCTF 2022 - Sequences
 
-> **Note**: This article is part of our [picoCTF 2022 Greatest Hits Guide]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits.md %}).
+> **Note**: This article is part of our [picoCTF 2022 Greatest Hits Guide]({% link _reference/hacking-101/picoctf-2022-greatest-hits.md %}).
 
 ## The Problem
 
@@ -325,4 +325,4 @@ if __name__ == "__main__":
     decrypt_flag(sol) # prints picoCTF{===REDACTED===}
 ```
 
-Head back to the [picoCTF 2022 Greatest Hits Guide]({% link _reference/Hacking-101/picoCTF-2022-Greatest-Hits.md %}) to continue with the next challenge.
+Head back to the [picoCTF 2022 Greatest Hits Guide]({% link _reference/hacking-101/picoctf-2022-greatest-hits.md %}) to continue with the next challenge.

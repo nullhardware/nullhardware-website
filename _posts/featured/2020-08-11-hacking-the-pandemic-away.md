@@ -13,7 +13,7 @@ image:
 cta:
   title: PicoCTF 2018 Reference Guide
   cta: "> Get Started"
-  url: /reference/Hacking-101/PicoCTF-2018-Binary-Exploits/
+  url: /reference/hacking-101/picoctf-2018-binary-exploits/
   body: |
     Step-By-Step instructions to learn Binary Exploitation by practicing on the PicoCTF 2018 challenges.
   image:
@@ -23,7 +23,7 @@ tags: [hacking]
 ---
 I've spent the last couple of months of the pandemic lockdown hacking my way through the [PicoCTF 2018](https://2018game.picoctf.com/) capture the flag challenges - and I'm sharing what I've learned. Every single Binary Exploitation challenge has been cracked, including the ones requiring heap exploits. Can you figure out how I did it?
 
-**TLDR**: Jump straight to our [PicoCTF 2018 BinExp Guide]({% link _reference/Hacking-101/PicoCTF-2018-Binary-Exploits.md %}).
+**TLDR**: Jump straight to our [PicoCTF 2018 BinExp Guide]({% link _reference/hacking-101/picoctf-2018-binary-exploits.md %}).
 
 ## Background
 
@@ -43,7 +43,7 @@ These challenges are fun, force you to think outside of the box, and teach you a
 
 As a resource for others, I'm starting to document everything I've learned under the ["Hacking-101"]({% link reference/index.html %}#hacking-101) section of our general [Reference]({% link reference/index.html %}) page.
 
-[Click Here]({% link _reference/Hacking-101/PicoCTF-2018-Binary-Exploits.md %}) for access to the complete rundown of the Binary Exploitation challenges from PicoCTF 2018. There are 20 challenges in total, and over the next couple weeks I'll be writing something about each of them.
+[Click Here]({% link _reference/hacking-101/picoctf-2018-binary-exploits.md %}) for access to the complete rundown of the Binary Exploitation challenges from PicoCTF 2018. There are 20 challenges in total, and over the next couple weeks I'll be writing something about each of them.
 
 To really learn something, you should [register](https://2018game.picoctf.com/) for PicoCTF 2018 and attempt them by yourself. But, for those looking for inspiration or who are stuck on a problem, our reference guide will teach you how you can approach the problems without spoiling everything.
 
