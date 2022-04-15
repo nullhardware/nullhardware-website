@@ -1,6 +1,6 @@
 ---
 title:  picoCTF 2022 - Binary Exploitation - Solfire (500 points) - Part I
-description: We start off by reversing the Solana eBPF binary by jitting it to x86_64 bytecode an examining its functions.
+description: We start off by reversing the Solana eBPF binary by jitting it to x86_64 bytecode and examining its functions.
 hide_index: true
 image:
   path: /img/reference/pico-ctf-2022-00000.png
