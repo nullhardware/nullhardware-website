@@ -53,3 +53,25 @@ solfire.so: ELF 64-bit LSB shared object, eBPF, version 1 (SYSV), dynamically li
 > Our three-part series covers reversing and exploiting a Solana smart-contract to steal over 50,000 lamports. This challenge had less than 10 solves during the picoCTF 2022 competition.  
 > [> Read More]({% link _reference/hacking-101/picoctf-2022-greatest-hits/solfire.md %})
 {:.contains-term}
+
+
+### 3. [Live Art]({% link _reference/hacking-101/picoctf-2022-greatest-hits/live-art.md %}) (**Web Exploitation** - *500 Points*)
+
+>
+```
+$ docker run --rm  -p 3000:3000 picoctf2022-liveart
+Pre-bundling dependencies:
+  react
+  react-dom
+  react-router-dom
+  peerjs
+  react/jsx-dev-runtime
+(this will be run only when your dependencies or config have changed)
+  vite v2.8.6 dev server running at:
+  > Local:    http://localhost:3000/
+  > Network:  http://172.17.0.2:3000/
+  ready in 501ms.
+```
+> This React website contains a hidden XSS vulnerability that we'll need to figure out in order to steal the flag.  
+> [> Read More]({% link _reference/hacking-101/picoctf-2022-greatest-hits/live-art.md %})
+{:.contains-term}
