@@ -75,3 +75,18 @@ Pre-bundling dependencies:
 > This React website contains a hidden XSS vulnerability that we'll need to figure out in order to steal the flag.  
 > [> Read More]({% link _reference/hacking-101/picoctf-2022-greatest-hits/live-art.md %})
 {:.contains-term}
+
+### 2. [NSA Backdoor]({% link _reference/hacking-101/picoctf-2022-greatest-hits/nsa-backdoor.md %}) (**Crypto** - *500 Points*)
+
+>
+```
+>>> dlog_brute(3, 13, 23, 23)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "solve.py", line 28, in dlog_brute
+    assert len(l) < 2, f"WARNING prime {p}, g={g}, h={h} has multiple solutions: {l}. Error!"
+AssertionError: WARNING prime 23, g=3, h=13 has multiple solutions: [5, 16]. Error!
+```
+> We brute-force our way through this backdoor, and learn a few things about discrete logarithms while we're at it.  
+> [> Read More]({% link _reference/hacking-101/picoctf-2022-greatest-hits/nsa-backdoor.md %})
+{:.contains-term}
