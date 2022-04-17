@@ -10,7 +10,7 @@ image:
   alt: Linux Terminal
 ---
 
-# picoCTF 2022 - Sequences
+# picoCTF 2022 - NSA Backdoor
 
 > **Note**: This article is part of our [picoCTF 2022 Greatest Hits Guide]({% link _reference/hacking-101/picoctf-2022-greatest-hits.md %}).
 
