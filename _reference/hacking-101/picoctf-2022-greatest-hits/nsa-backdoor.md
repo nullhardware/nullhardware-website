@@ -169,7 +169,7 @@ hi &= {13}^{\frac{(p-1)}{2}} = {13}^{\frac{22}{2}} = {13}^{11} \text{ (mod 23)} 
 \end{aligned}
 {% endkatex %}
 
-**Uhoh!** We are asking `dlog_brute` to solve the equation {% katex %} 1^x = 1 \text{ (mod 2)}{% endkatex %}. That's clearly a problem since both `0` and `1` are equally valid answers to that equation.
+**Uhoh!** We are asking `dlog_brute` to solve the equation {% katex %} 1^x = 1 \text{ (mod 23)}{% endkatex %}. That's clearly a problem since both `0` and `1` are equally valid answers to that equation (**NOTE**: `x` can *only* take the values `0` and `1`).
 
 So, what happens if we ask `dlog_brute` to solve {% katex %} 3^{x} = 13 \text{ (mod 23)}{% endkatex %} directly?:
 
