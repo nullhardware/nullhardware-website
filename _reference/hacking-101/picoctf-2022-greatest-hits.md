@@ -13,8 +13,6 @@ image:
 
 This time around we broke out of the Binary Exploitation category. We eventually solved *everything* (and broke into the global top 10 during the competition). This page is a *greatest-hits* compilation of the more difficult/interesting challenges and our approach to solving them.
 
-**NOTE: stay tuned as this page is actively being updated with more challenges.**
-
 ## Getting Started
 
 Note: For most challenges all you need as a linux machine (a Kali VM or WSL2 is fine) with python3.
@@ -76,7 +74,7 @@ Pre-bundling dependencies:
 > [> Read More]({% link _reference/hacking-101/picoctf-2022-greatest-hits/live-art.md %})
 {:.contains-term}
 
-### 2. [NSA Backdoor]({% link _reference/hacking-101/picoctf-2022-greatest-hits/nsa-backdoor.md %}) (**Crypto** - *500 Points*)
+### 4. [NSA Backdoor]({% link _reference/hacking-101/picoctf-2022-greatest-hits/nsa-backdoor.md %}) (**Crypto** - *500 Points*)
 
 >
 ```

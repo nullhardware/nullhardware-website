@@ -5,3 +5,4 @@ Thumbs.db
 *.xcf
 .sass-cache
 vendor
+.jekyll-metadata
