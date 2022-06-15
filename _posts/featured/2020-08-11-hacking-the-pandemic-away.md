@@ -8,7 +8,7 @@ image:
   path: /img/generic/hacker-pandemic-00000.png
   width: 2048
   height: 1024
-  thumb: /img/generic/hacker-pandemic-00000.thumb.png
+  thumb: /img/generic/hacker-pandemic-00001.thumb.png
   alt: Hacker wearing a mask
 cta:
   title: PicoCTF 2018 Reference Guide
