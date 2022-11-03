@@ -145,9 +145,9 @@ The following are common types of DNS records:
 
 1. **DNS A records** - DNS A records (or Address Mapping records) hold a hostname and its corresponding IPV4 address. An example of a DNS A record is presented below.
 
-  |Domain|TTL (s)|Record Type|Value|
-  |:-:|:-:|:-:|:-:|
-  |example.com|14400|A|192.0.0.1|
+|Domain|TTL (s)|Record Type|Value|
+|:-:|:-:|:-:|:-:|
+|example.com|14400|A|192.0.0.1|
 2. **DNS AAAA records** - DNS AAAA records hold a hostname and its corresponding IPV6 address.
 3. **DNS CNAME records** - DNS CNAME records (or Canonical Name records) are used to create aliases of domain names. CNAME records can be used to alias one domain to another domain. All CNAME records must point to a domain and never to an IP address. A common example is subdomain which is provided an alias to the root domain name. 
    An example of a DNS CNAME record is presented below where `support.example.com` is an alias for `example.com`. When a DNS A record lookup is requested for `support.example.com`, the DNS resolver will see a CNAME record and return the IP address for `example.com` instead.
