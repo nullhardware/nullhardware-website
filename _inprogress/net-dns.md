@@ -155,7 +155,6 @@ The following are common types of DNS records:
   |Domain|TTL (s)|Record Type|Value|
   |:-:|:-:|:-:|:-:|
   |support.example.com|14400|CNAME|example.com|
-  
 4. **DNS MX records** - DNS MX record (or Mail Exchanger records) specifies a mail exchange server that routes emails to the correct mail server for the domain. MX records indicate how emails should be routed in accordance with SMTP. DNS MX records must point to another domain and never to an IP address.
    Priority numbers are used to indicate preference for a server where **lower priority numbers are preferred over higher priority numbers**. When two or more exchange servers are included in the MX record, the priority can be set to be equal in order to enable load balancing between the mail servers. An example of a DNS MX record is presented below. 
    
