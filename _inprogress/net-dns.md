@@ -165,10 +165,11 @@ The following are common types of DNS records:
   |example.com|3600|MX|0|mailhost@example.com|
 
 5. **DNS NS records** - DNS NS records (or Name Server records) delegates a DNS zone to use a specific authoritative nameserver. When querying a domain, NS records provide a list of authoritative nameservers for that domain. Note that DNS NS records can never point to a CNAME record. An example of a DNS NS record is presented below.
-   |Domain|TTL (s)|Record Type|Value|
-   |:-:|:-:|:-:|:-:|:-:|
-   |example.com|14400|NS|ns1.exampleserver.com|
-   <br>
+   
+  |Domain|TTL (s)|Record Type|Value|
+  |:-:|:-:|:-:|:-:|:-:|
+  |example.com|14400|NS|ns1.exampleserver.com|
+
 6. **DNS PTR records** - DNS PTR records (or Reverse-lookup Pointer records) map a domain name associated with an IP address for reverse DNS lookups. DNS PTR records are used to lookup domain names based on an IP address (opposite of DNS A records).
 7. **DNS CERT records** - DNS CERT records (or Certificate records) store encryption certificates (such as PGP, PKIX, SPKI, etc.) and related certificate revocation lists (CRLs) for invalid certificates. 
    To create a CERT record, the following information must be provided:
@@ -177,14 +178,16 @@ The following are common types of DNS records:
    * Encryption algorithm
    * Certificate, CRL, URL of the certificate, or fingerprint and a URL together.
      An example of a DNS CERT record is presented below.
-     |Domain|TTL (s)|Record Type|Value|
-     |:-:|:-:|:-:|:-:|:-:|
-     |example.com|300|CERT|2 77 2 TUlJQ1l6Q0NBY3lnQXdJQkFnSUJBREFOQmdrcWh|
-     <br>
+ 
+  |Domain|TTL (s)|Record Type|Value|
+  |:-:|:-:|:-:|:-:|:-:|
+  |example.com|300|CERT|2 77 2 TUlJQ1l6Q0NBY3lnQXdJQkFnSUJBREFOQmdrcWh|
+
 8. **DNS TXT records** -  DNS TXT records (or Text records) are used to store descriptive texts which often contain additional information which may not fit the format of other records. An example of a DNS TXT record is presented below.
-   |Domain|TTL (s)|Record Type|Value|
-   |:-:|:-:|:-:|:-:|:-:|
-   |example.com|14400|TXT|Some text|
+   
+  |Domain|TTL (s)|Record Type|Value|
+  |:-:|:-:|:-:|:-:|:-:|
+  |example.com|14400|TXT|Some text|
 
 The list of DNS records presented above is non-exhaustive. For a complete list refer to [DNS Record Types Explained](https://phoenixnap.com/kb/dns-record-types "DNS Record Types Explained").
 
