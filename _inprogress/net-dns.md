@@ -148,7 +148,6 @@ The following are common types of DNS records:
   |Domain|TTL (s)|Record Type|Value|
   |:-:|:-:|:-:|:-:|
   |example.com|14400|A|192.0.0.1|
-
 2. **DNS AAAA records** - DNS AAAA records hold a hostname and its corresponding IPV6 address.
 3. **DNS CNAME records** - DNS CNAME records (or Canonical Name records) are used to create aliases of domain names. CNAME records can be used to alias one domain to another domain. All CNAME records must point to a domain and never to an IP address. A common example is subdomain which is provided an alias to the root domain name. 
    An example of a DNS CNAME record is presented below where `support.example.com` is an alias for `example.com`. When a DNS A record lookup is requested for `support.example.com`, the DNS resolver will see a CNAME record and return the IP address for `example.com` instead.
@@ -156,20 +155,17 @@ The following are common types of DNS records:
   |Domain|TTL (s)|Record Type|Value|
   |:-:|:-:|:-:|:-:|:-:|
   |support.example.com|14400|CNAME|example.com|
-
 4. **DNS MX records** - DNS MX record (or Mail Exchanger records) specifies a mail exchange server that routes emails to the correct mail server for the domain. MX records indicate how emails should be routed in accordance with SMTP. DNS MX records must point to another domain and never to an IP address.
    Priority numbers are used to indicate preference for a server where **lower priority numbers are preferred over higher priority numbers**. When two or more exchange servers are included in the MX record, the priority can be set to be equal in order to enable load balancing between the mail servers. An example of a DNS MX record is presented below. 
    
   |Domain|TTL (s)|Record Type|Priority|Value|
   |:-:|:-:|:-:|:-:|:-:|:-:|
   |example.com|3600|MX|0|mailhost@example.com|
-
 5. **DNS NS records** - DNS NS records (or Name Server records) delegates a DNS zone to use a specific authoritative nameserver. When querying a domain, NS records provide a list of authoritative nameservers for that domain. Note that DNS NS records can never point to a CNAME record. An example of a DNS NS record is presented below.
    
   |Domain|TTL (s)|Record Type|Value|
   |:-:|:-:|:-:|:-:|:-:|
   |example.com|14400|NS|ns1.exampleserver.com|
-
 6. **DNS PTR records** - DNS PTR records (or Reverse-lookup Pointer records) map a domain name associated with an IP address for reverse DNS lookups. DNS PTR records are used to lookup domain names based on an IP address (opposite of DNS A records).
 7. **DNS CERT records** - DNS CERT records (or Certificate records) store encryption certificates (such as PGP, PKIX, SPKI, etc.) and related certificate revocation lists (CRLs) for invalid certificates. 
    To create a CERT record, the following information must be provided:
@@ -182,7 +178,6 @@ The following are common types of DNS records:
   |Domain|TTL (s)|Record Type|Value|
   |:-:|:-:|:-:|:-:|:-:|
   |example.com|300|CERT|2 77 2 TUlJQ1l6Q0NBY3lnQXdJQkFnSUJBREFOQmdrcWh|
-
 8. **DNS TXT records** -  DNS TXT records (or Text records) are used to store descriptive texts which often contain additional information which may not fit the format of other records. An example of a DNS TXT record is presented below.
    
   |Domain|TTL (s)|Record Type|Value|
