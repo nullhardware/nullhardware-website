@@ -3,7 +3,7 @@ title: DNS
 headline: DNS Basics
 description: Notes on DNS.
 date: 2022-10-27T17:33:13.355Z
-author: Nouman
+author: nouman
 draft_img: /img/drafts/DSC05499_500_501_fused-4.jpg
 tags:
   - networks
