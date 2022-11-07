@@ -1,16 +1,23 @@
 ---
 title: DNS
-headline: DNS Basics
+headline: DNS Fundamentals
 description: Notes on DNS.
 date: 2022-10-27T17:33:13.355Z
 author: nouman
-mermaid: true
 draft_img: /img/drafts/DSC05499_500_501_fused-4.jpg
 tags:
   - networks
   - dns
 ---
-The Domain Name System (DNS) resolves domain names of internet sites with their underlying IP addresses. DNS is analogous to a phone book for the internet whereby it permits translation of human-friendly hostnames into IP addresses.
+## Introduction
+
+Over the last year, I have been meaning to get back into cybersecurity but as life would have it, I couldn't dedicate much time without detracting from existing obligations and responsibilities. The last month has seen an increase in my leisure time and as such I have finally been able to devote some time and resources to refamiliarise myself with the field.
+
+In this post, I'll go over fundamentals of Domain Name System (DNS). The content below is not meant to be a deep dive into the inner workings of DNS but is meant more as a gentle introduction for beginners or a quick refresher for those of us returning to the world of networking and cybersecurity after a prolonged absence. 
+
+## What is DNS?
+
+DNS resolves domain names of internet sites with their underlying IP addresses. DNS is analogous to a phone book for the internet whereby it permits translation of human-friendly hostnames into IP addresses.
 
 ```mermaid
 graph LR;
@@ -199,7 +206,7 @@ The list of DNS records presented above is non-exhaustive. For a complete list r
 
 DNS communication is facilitated using query and reply messaging. Both queries and responses have the same general format consisting of a header and four sections including question, answer, authority, and an additional space. 
 
-### Header Section
+### _Header Section_
 
 The header field controls the contents of these four sections. The general format of DNS message header is illustrated below.
 
@@ -219,7 +226,7 @@ The header field controls the contents of these four sections. The general forma
 | NSCount    | 16          | **_Authority Record Count_**: Specifies the number of resource records in the _Authority_ section of the message.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | ARCount    | 16          | **_Additional Record Count_**: Specifies the number of resource records in the _Additional_ section of the message                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 
-### Question Section
+### _Question Section_
 
 The question section contains the domain name and the type of DNS record being resolved. The question section contain the following fields:
 
@@ -229,7 +236,7 @@ The question section contains the domain name and the type of DNS record being r
 | TYPE  | 2              | Type of DNS resource record    |
 | CLASS | 2              | Class code                     |
 
-### Answer Section
+### _Answer Section_
 
 The answer section contains the DNS resource records of the queried hostname.
 
