@@ -4,16 +4,16 @@ headline: DNS Fundamentals
 description: Notes on DNS.
 date: 2022-10-27T17:33:13.355Z
 author: nouman
-draft_img: /img/drafts/DSC05499_500_501_fused-4.jpg
+draft_img: /img/drafts/DNS.jpg
 tags:
   - networks
   - dns
+mermaid: true
 ---
-## Introduction
-
-Over the last year, I have been meaning to get back into cybersecurity but as life would have it, I couldn't dedicate much time without detracting from existing obligations and responsibilities. The last month has seen an increase in my leisure time and as such I have finally been able to devote some time and resources to refamiliarise myself with the field.
 
 In this post, I'll go over fundamentals of Domain Name System (DNS). The content below is not meant to be a deep dive into the inner workings of DNS but is meant more as a gentle introduction for beginners or a quick refresher for those of us returning to the world of networking and cybersecurity after a prolonged absence. 
+
+> Over the last year, I have been meaning to get back into cybersecurity but as life would have it, I couldn't dedicate much time without detracting from existing obligations and responsibilities. The last month has seen an increase in my leisure time and as such I have finally been able to devote some time and resources to refamiliarise myself with the field.
 
 ## What is DNS?
 

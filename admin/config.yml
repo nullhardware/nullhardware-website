@@ -17,5 +17,6 @@ collections:
     - {label: "Author (andrew, marcin, nouman, nurchi or blank)", name: "author", widget: "string"}
     - {label: "Featured Image", name: "draft_img", widget: "image"}
     - {label: "Tags", name: "tags", widget: "list"}
+    - {label: "Mermaid?", name: "mermaid", widget: "boolean", default: false, required: false}
     - {label: "Excerpt (optional)", name: "excerpt", widget: "string", required: false}
     - {label: "Body", name: "body", widget: "markdown"}
