@@ -1,17 +1,19 @@
 ---
 title: IDOR
-headline: Insecure Direct Object Reference
+headline: Insecure Direct Object References
 description: Fundamentals of IDOR vulnerabilities and prevention methods.
 date: 2022-11-16T18:14:00.415Z
 author: nouman
 draft_img: /img/drafts/DSC05499_500_501_fused-4.jpg
 tags:
-  - webapp
+  - '#webapps'
 mermaid: false
 ---
-## What are Insecure Direct Object Reference Vulnerabilities?
+In this blog post, we will explore the basics of insecure direct object reference (IDOR) vulnerabilities. IDOR vulnerabilities frequently place on the OWASP Top 10 classifed under Broken Access Control. 
 
-Insecure direct object reference (or IDOR) is a type of access control vulnerability that results when a web application uses a unique identifier for direct access to an internal object without additional access control or authentication checks.
+## What are IDOR Vulnerabilities?
+
+Insecure direct object reference is a type of access control vulnerability that results when a web application uses a unique identifier for direct access to an internal object without additional access control or authentication checks.
 
 Exposed direct object references are not necessarily a security risk by themselves; however when combined with improper or insufficient access control, direct object references enable possibility of enumeration attacks which could lead to circumvention of poor access control measures. 
 
