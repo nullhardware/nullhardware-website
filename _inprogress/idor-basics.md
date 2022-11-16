@@ -11,7 +11,7 @@ mermaid: false
 ---
 Insecure direct object reference (IDOR) vulnerabilities frequently place on the OWASP Top 10. They are  fundamentally a broken access control issue and as such are classifed by OWASP under *Broken Access Control* vulnerabilities. 
 
-In this blog post, we discuss what IDOR vulnerabilities are and how they can be mitigated.
+In this blog post, we will explore the premise behind IDOR vulnerabilities and discuss some mitigation strategies.
 
 ## What are IDOR Vulnerabilities?
 
