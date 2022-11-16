@@ -4,7 +4,7 @@ headline: Insecure Direct Object References
 description: Fundamentals of IDOR vulnerabilities and prevention methods.
 date: 2022-11-16T18:14:00.415Z
 author: nouman
-draft_img: /img/drafts/DSC05499_500_501_fused-4.jpg
+draft_img: /img/drafts/pexels-pixabay-270408.jpg
 tags:
   - webapps
 mermaid: false
