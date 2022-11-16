@@ -1,5 +1,5 @@
 ---
-title: IDOR Basics
+title: IDOR
 headline: Insecure Direct Object Reference
 description: Fundamentals of IDOR vulnerabilities and prevention methods.
 date: 2022-11-16T18:14:00.415Z
