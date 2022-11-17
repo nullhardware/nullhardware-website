@@ -9,7 +9,7 @@ tags:
   - webapps
 mermaid: false
 ---
-Insecure direct object reference (IDOR) vulnerabilities frequently place on the OWASP Top 10. They are  fundamentally a broken access control issue and as such are classifed by OWASP under *Broken Access Control* vulnerabilities. 
+Insecure direct object reference (IDOR) vulnerabilities frequently place on the OWASP Top 10. They are  fundamentally a broken access control issue and as such are classifed by OWASP under _Broken Access Control_ vulnerabilities. 
 
 In this blog post, we will explore the premise behind IDOR vulnerabilities and discuss some mitigation strategies.
 
@@ -39,7 +39,7 @@ Since the `id` parameter is used directly to query the database, an attacker can
 
 As a result of this IDOR vulnerability, an attacker can perform horizontal privilege escalation attacks against the web application thereby accessing information they normally should not have access to. If the attacker is able to enumerate an `id`  associated with elevated privileges then a vertical privilege escalation is also possible.
 
-It is worth mentioning that the most common type of IDOR vulnerabilities are associated with directory or path traversal which can permit an attacker to manipulate file system resources by allowing uploading or downloading of files and gain access to sensitive resources such as `/etc/passwd` or `/etc/shadow`.
+It is worth mentioning that the most common type of IDOR vulnerabilities are associated with directory or path traversal which can permit an attacker to manipulate file system resources by allowing uploading or downloading of files and gain access to sensitive resources such as `/etc/passwd`.
 
 ## Preventing IDOR Vulnerabilities
 
